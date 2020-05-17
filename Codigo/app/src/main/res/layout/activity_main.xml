@@ -179,6 +179,9 @@
         android:layout_marginEnd="24dp"
         android:ems="10"
         android:inputType="textPersonName"
+        android:textAlignment="center"
+        android:textColor="#FCFBFB"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewDNI" />
@@ -210,6 +213,7 @@
         android:ems="10"
         android:inputType="textPersonName"
         android:textAlignment="center"
+        android:textColor="#FCFBFB"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -240,6 +244,9 @@
         android:layout_marginEnd="24dp"
         android:ems="10"
         android:inputType="textPersonName"
+        android:textAlignment="center"
+        android:textColor="#FCFBFB"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView3" />
