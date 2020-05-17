@@ -17,7 +17,7 @@
         android:layout_height="52dp"
         android:layout_marginStart="24dp"
         android:layout_marginEnd="32dp"
-        android:layout_marginBottom="188dp"
+        android:layout_marginBottom="28dp"
         android:background="#F3F3F5"
         android:capitalize="none"
         android:clickable="true"
@@ -35,7 +35,8 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:autoText="false"
-        android:text="Contraseña"
+        android:background="#FA090808"
+        android:text="Apellido"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textColor="#FFFFFF"
@@ -48,7 +49,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.479"
+        app:layout_constraintVertical_bias="0.27"
         tools:visibility="visible" />
 
     <TextView
@@ -56,7 +57,8 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:autoText="false"
-        android:text="Usuario"
+        android:background="#0A0A0A"
+        android:text="Nombre"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textColor="#FFFFFF"
@@ -67,10 +69,10 @@
         app:autoSizeTextType="none"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.288"
+        app:layout_constraintVertical_bias="0.091"
         tools:visibility="visible" />
 
     <TextView
@@ -78,7 +80,8 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:autoText="false"
-        android:text="Login"
+        android:background="#F0090808"
+        android:text="Bienvenido al login"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textColor="#FFFDFC"
@@ -91,7 +94,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.17000002"
+        app:layout_constraintVertical_bias="0.007"
         tools:visibility="visible" />
 
     <Button
@@ -101,7 +104,7 @@
         android:layout_height="52dp"
         android:layout_marginStart="32dp"
         android:layout_marginEnd="24dp"
-        android:layout_marginBottom="188dp"
+        android:layout_marginBottom="28dp"
         android:background="#F5F4F5"
         android:text="Ingresar"
         android:textAlignment="center"
@@ -119,7 +122,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="23dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="24dp"
         android:ems="10"
         android:inputType="textPersonName"
@@ -137,7 +140,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="26dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="24dp"
         android:ems="10"
         android:inputType="textPersonName"
@@ -149,5 +152,96 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/apellido" />
+
+    <TextView
+        android:id="@+id/textViewDNI"
+        android:layout_width="397dp"
+        android:layout_height="38dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="4dp"
+        android:background="#0C0C0C"
+        android:text="DNI"
+        android:textAlignment="center"
+        android:textColor="#FFFDFD"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editCont" />
+
+    <EditText
+        android:id="@+id/editTextdni"
+        android:layout_width="221dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="24dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewDNI" />
+
+    <TextView
+        android:id="@+id/textViewEmail"
+        android:layout_width="404dp"
+        android:layout_height="36dp"
+        android:layout_marginStart="3dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="4dp"
+        android:background="#070707"
+        android:text="Email"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextdni" />
+
+    <EditText
+        android:id="@+id/editTextmail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="24dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:textAlignment="center"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewEmail" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="407dp"
+        android:layout_height="34dp"
+        android:layout_marginStart="6dp"
+        android:layout_marginTop="16dp"
+        android:background="#FC0C0C0C"
+        android:text="Password"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextmail" />
+
+    <EditText
+        android:id="@+id/editTextPass"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="24dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

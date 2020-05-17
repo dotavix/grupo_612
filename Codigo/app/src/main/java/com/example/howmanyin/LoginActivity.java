@@ -20,15 +20,10 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 setContentView(R.layout.activity_main);
-                finish();
+
 
             }
         });
 
-    }
-    @Override
-    public void onBackPressed() {
-        // do something on back.
-        return;
     }
 }
