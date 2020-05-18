@@ -10,26 +10,6 @@
     android:visibility="visible"
     tools:context=".MainActivity">
 
-    <Button
-        android:id="@+id/registrar"
-        style="@style/Widget.AppCompat.Button"
-        android:layout_width="159dp"
-        android:layout_height="52dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginBottom="28dp"
-        android:background="#F3F3F5"
-        android:capitalize="none"
-        android:clickable="true"
-        android:text="Registrarse"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:textColor="#0D0D0E"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/ingresar" />
-
     <TextView
         android:id="@+id/apellido"
         android:layout_width="0dp"
@@ -77,8 +57,8 @@
 
     <TextView
         android:id="@+id/textRegistrar"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_width="408dp"
+        android:layout_height="48dp"
         android:autoText="false"
         android:background="#F0090808"
         android:text="Bienvenido al login"
@@ -94,28 +74,8 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.007"
+        app:layout_constraintVertical_bias="0.0"
         tools:visibility="visible" />
-
-    <Button
-        android:id="@+id/ingresar"
-        style="@android:style/Widget.Button"
-        android:layout_width="169dp"
-        android:layout_height="52dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="24dp"
-        android:layout_marginBottom="28dp"
-        android:background="#F5F4F5"
-        android:text="Ingresar"
-        android:textAlignment="center"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:textColor="#0A0909"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/registrar"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
         android:id="@+id/editUser"
@@ -250,5 +210,38 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView3" />
+
+    <Button
+        android:id="@+id/ingresar"
+        android:layout_width="185dp"
+        android:layout_height="51dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="36dp"
+        android:background="#FCFFFFFF"
+        android:text="Ingresar"
+        android:textAlignment="center"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/registrar"
+        android:layout_width="156dp"
+        android:layout_height="49dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="36dp"
+        android:background="#FFFFFF"
+        android:text="Registrar"
+        android:textAlignment="center"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/ingresar" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

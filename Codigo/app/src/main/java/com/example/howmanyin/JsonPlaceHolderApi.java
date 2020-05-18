@@ -8,4 +8,7 @@ public interface JsonPlaceHolderApi {
 
     @POST("login")
     Call<Registracion> createUserFromLogin(@Body Registracion registro);
+
+    @POST("register")
+    Call<Registracion> createUserFromRegister(@Body Registracion registro);
 }

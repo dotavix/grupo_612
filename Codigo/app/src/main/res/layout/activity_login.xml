@@ -11,7 +11,7 @@
     tools:context=".LoginActivity">
 
     <Button
-        android:id="@+id/ingresar"
+        android:id="@+id/confirmar"
         style="@android:style/Widget.Button"
         android:layout_width="168dp"
         android:layout_height="50dp"
@@ -19,6 +19,8 @@
         android:layout_marginEnd="24dp"
         android:layout_marginBottom="32dp"
         android:background="#F7F7F8"
+        android:clickable="true"
+        android:cursorVisible="true"
         android:text="Confirmar"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
@@ -39,6 +41,8 @@
         android:layout_marginBottom="32dp"
         android:background="#FFFFFF"
         android:capitalize="none"
+        android:clickable="true"
+        android:cursorVisible="true"
         android:enabled="false"
         android:text="Cancelar"
         android:textAlignment="center"
@@ -49,7 +53,7 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/ingresar" />
+        app:layout_constraintStart_toEndOf="@+id/confirmar" />
 
     <TextView
         android:id="@+id/nombre"
@@ -90,7 +94,7 @@
         android:layout_height="45dp"
         android:layout_marginBottom="33dp"
         android:background="#030303"
-        android:text="Registrate !!!!"
+        android:text="Registrate !!!"
         android:textAlignment="center"
         android:textColor="#FFFFFF"
         android:textSize="30sp"
@@ -118,7 +122,7 @@
         app:layout_constraintTop_toBottomOf="@+id/editTextNombre" />
 
     <EditText
-        android:id="@+id/edittApellido"
+        android:id="@+id/editApellido"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
@@ -134,45 +138,10 @@
         app:layout_constraintTop_toBottomOf="@+id/textApellido" />
 
     <TextView
-        android:id="@+id/textDni"
-        android:layout_width="407dp"
-        android:layout_height="39dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="24dp"
-        android:background="#070707"
-        android:text="DNI"
-        android:textAlignment="center"
-        android:textColor="#FFFFFF"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edittApellido" />
-
-    <EditText
-        android:id="@+id/editTextDnI"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="24dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:textAlignment="center"
-        android:textColor="#FFFFFF"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textDni" />
-
-    <TextView
         android:id="@+id/textEmail"
         android:layout_width="409dp"
         android:layout_height="41dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="24dp"
+        android:layout_marginTop="18dp"
         android:background="#090808"
         android:text="Email"
         android:textAlignment="center"
@@ -180,8 +149,9 @@
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.521"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextDnI" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextDoc" />
 
     <EditText
         android:id="@+id/editTextEmail"
@@ -190,11 +160,13 @@
         android:layout_marginStart="24dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="24dp"
+        android:layout_marginBottom="16dp"
         android:ems="10"
         android:inputType="textPersonName"
         android:textAlignment="center"
         android:textColor="#FFFFFF"
         android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/clave"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textEmail" />
@@ -221,7 +193,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="12dp"
         android:layout_marginEnd="24dp"
         android:ems="10"
         android:inputType="textPersonName"
@@ -231,5 +203,39 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/clave" />
+
+    <TextView
+        android:id="@+id/textViewDoc"
+        android:layout_width="396dp"
+        android:layout_height="42dp"
+        android:layout_marginTop="24dp"
+        android:background="#0C0C0C"
+        android:text="DNI"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editApellido" />
+
+    <EditText
+        android:id="@+id/editTextDoc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="13dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textColorHint="#FFFFFF"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/textEmail"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewDoc" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -2,11 +2,14 @@ package com.example.howmanyin;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -17,69 +20,90 @@ public class MainActivity extends AppCompatActivity {
 
     private JsonPlaceHolderApi jsonPlaceHolderApi;
 
+    Button botonRegistrar;
+
+    Button botonIngresar;
+
+    EditText textoUsuario;
+
+    EditText textoCont;
+
+    EditText textApellido;
+
+    EditText textoEmail;
+
+    EditText textoDNI;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        OkHttpClient okHttpClient = UnsafeOkHttpClient.getUnsafeOkHttpClient();
+
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://so-unlam.net.ar/api/")
+                .baseUrl("http://so-unlam.net.ar/api/api/")
+                .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
         jsonPlaceHolderApi = retrofit.create(JsonPlaceHolderApi.class);
 
-        //createUserFromLogin(String user ,String pass ,String dni ,String email ,String apellido);
-
-        Button botonRegistrar = findViewById(R.id.registrar);
+        botonRegistrar = findViewById(R.id.registrar);
 
         botonRegistrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                setContentView(R.layout.activity_login);
+                openActivityRegistro();
 
             }
         });
 
-        Button botonIngrear = findViewById(R.id.ingresar);
+        botonIngresar = findViewById(R.id.ingresar);
 
-        botonIngrear.setOnClickListener(new View.OnClickListener() {
+        botonIngresar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                EditText textoUsuario = findViewById(R.id.editUser);
-                String user =textoUsuario.getText().toString();
+                textoUsuario = findViewById(R.id.editUser);
+                String user = textoUsuario.getText().toString();
 
-                EditText textoCont = findViewById(R.id.editTextPass);
-                String pass =textoCont.getText().toString();
+                textoCont = findViewById(R.id.editTextPass);
+                String pass = textoCont.getText().toString();
 
-                EditText textApellido = findViewById(R.id.editCont);
-                String apellido =textApellido.getText().toString();
+                textApellido = findViewById(R.id.editCont);
+                String apellido = textApellido.getText().toString();
 
-                EditText textoEmail = findViewById(R.id.editTextmail);
-                String email =textoEmail.getText().toString();
+                textoEmail = findViewById(R.id.editTextmail);
+                String email = textoEmail.getText().toString();
 
-                EditText textoDNI = findViewById(R.id.editTextdni);
-                String dni =textoDNI.getText().toString();
+                textoDNI = findViewById(R.id.editTextdni);
+                String dni = textoDNI.getText().toString();
 
-
-                if (user.length() ==0 || pass.length() == 0 || apellido.length() == 0 || email.length() == 0 || dni.length() == 0){
-
-                    showMsg(view);
-
-                }else{
-
-                    createUserFromLogin(user , pass , dni , pass , apellido );
-                    setContentView(R.layout.activity_sensor);
-                }
-            }
-
-            public  void  showMsg(View view){
-
-                Toast.makeText(getApplicationContext(),"No ha completado los campos",Toast.LENGTH_SHORT).show();
+                validateInputs(user, pass, apellido, email, dni);
             }
         });
+    }
+
+    private void validateInputs(String user , String apellido , String dni , String email , String pass){
+
+        if (user.length() ==0 || pass.length() == 0 || apellido.length() == 0 || email.length() == 0 || dni.length() == 0){
+
+            Toast.makeText(this,"No ha completado los campos",Toast.LENGTH_SHORT).show();
+
+        }else{
+
+            createUserFromLogin(user , pass , dni , pass , apellido );
+            setContentView(R.layout.activity_sensor);
+        }
+    }
+
+
+    public void openActivityRegistro(){
+
+        Intent intentRegistro = new Intent(this , LoginActivity.class);
+        startActivity(intentRegistro);
     }
 
     private void createUserFromLogin( String user ,String pass ,String dni ,String email ,String apellido){
@@ -91,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
         reg.setDni(dni);
         reg.setEmail(email);
         reg.setPassword(pass);
-        reg.setCommission("");
+        reg.setCommission("6124");
         reg.setEnv("TEST");
         reg.setGroup("612");
 
@@ -105,10 +129,11 @@ public class MainActivity extends AppCompatActivity {
 
                     Integer resultado = response.code();
 
+                    Log.d("Response error", String.valueOf(response.code()));
                     return ;
                 }
-
-                Toast.makeText(getApplicationContext(),response.body().toString(),Toast.LENGTH_SHORT).show();
+                Log.d("Response correcto", String.valueOf(response.code()));
+                Toast.makeText(getApplicationContext(), response.body().toString(),Toast.LENGTH_SHORT).show();
 
             }
 
@@ -120,4 +145,5 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
 }
