@@ -2,7 +2,10 @@ package com.example.howmanyin;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.BroadcastReceiver;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -17,6 +20,8 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
+
+    private BroadcastReceiver MyReceiver = null;
 
     private JsonPlaceHolderApi jsonPlaceHolderApi;
 
@@ -36,8 +41,10 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        MyReceiver = new MyReceiver();
 
         OkHttpClient okHttpClient = UnsafeOkHttpClient.getUnsafeOkHttpClient();
 
@@ -82,6 +89,8 @@ public class MainActivity extends AppCompatActivity {
                 String dni = textoDNI.getText().toString();
 
                 validateInputs(user, apellido, dni, email, pass);
+
+                broadcastIntent();
             }
         });
     }
@@ -147,6 +156,15 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    public void broadcastIntent() {
+        registerReceiver(MyReceiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
+    }
+    @Override
+    protected void onPause() {
+        super.onPause();
+        unregisterReceiver(MyReceiver);
     }
 
 }
