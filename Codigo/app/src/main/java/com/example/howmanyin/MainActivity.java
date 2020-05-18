@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
                 textoDNI = findViewById(R.id.editTextdni);
                 String dni = textoDNI.getText().toString();
 
-                validateInputs(user, pass, apellido, email, dni);
+                validateInputs(user, apellido, dni, email, pass);
             }
         });
     }
@@ -94,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
 
         }else{
 
-            createUserFromLogin(user , pass , dni , pass , apellido );
+            createUserFromLogin(user , apellido , dni , email , pass );
             setContentView(R.layout.activity_sensor);
         }
     }
@@ -106,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intentRegistro);
     }
 
-    private void createUserFromLogin( String user ,String pass ,String dni ,String email ,String apellido){
+    private void createUserFromLogin( String user ,String apellido ,String dni ,String email ,String pass){
 
         Registracion reg = new Registracion();
 
@@ -116,14 +116,16 @@ public class MainActivity extends AppCompatActivity {
         reg.setEmail(email);
         reg.setPassword(pass);
         reg.setCommission("6124");
-        reg.setEnv("TEST");
+        reg.setEnv("DEV");
         reg.setGroup("612");
 
-        Call<Registracion> call = jsonPlaceHolderApi.createUserFromLogin(reg);
+        Log.d("Request enviado", reg.toString());
 
-        call.enqueue(new Callback<Registracion>() {
+        Call<RegistroResponse> call = jsonPlaceHolderApi.createUserFromLogin(reg);
+
+        call.enqueue(new Callback<RegistroResponse>() {
             @Override
-            public void onResponse(Call<Registracion> call, Response<Registracion> response) {
+            public void onResponse(Call<RegistroResponse> call, Response<RegistroResponse> response) {
 
                 if (!response.isSuccessful()){
 
@@ -133,12 +135,13 @@ public class MainActivity extends AppCompatActivity {
                     return ;
                 }
                 Log.d("Response correcto", String.valueOf(response.code()));
+                Log.d("Response body", response.body().toString());
                 Toast.makeText(getApplicationContext(), response.body().toString(),Toast.LENGTH_SHORT).show();
 
             }
 
             @Override
-            public void onFailure(Call<Registracion> call, Throwable t) {
+            public void onFailure(Call<RegistroResponse> call, Throwable t) {
 
                 Toast.makeText(getApplicationContext(),t.getMessage(),Toast.LENGTH_SHORT).show();
 

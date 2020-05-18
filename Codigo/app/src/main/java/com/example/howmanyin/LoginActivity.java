@@ -143,14 +143,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             reg.setEmail(email);
             reg.setPassword(pass);
             reg.setCommission("6124");
-            reg.setEnv("TEST");
+            reg.setEnv("DEV");
             reg.setGroup("612");
 
-            Call<Registracion> call = jsonPlaceHolderApi.createUserFromRegister(reg);
+            Call<RegistroResponse> call = jsonPlaceHolderApi.createUserFromRegister(reg);
 
-            call.enqueue(new Callback<Registracion>() {
+            call.enqueue(new Callback<RegistroResponse>() {
                 @Override
-                public void onResponse(Call<Registracion> call, Response<Registracion> response) {
+                public void onResponse(Call<RegistroResponse> call, Response<RegistroResponse> response) {
 
                     if (!response.isSuccessful()) {
 
@@ -159,13 +159,15 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         Log.d("Response error", String.valueOf(response.code()));
                         return;
                     }
+
                     Log.d("Response correcto", String.valueOf(response.code()));
-                    Toast.makeText(getApplicationContext(), response.body().toString(), Toast.LENGTH_SHORT).show();
+                    Log.d("Response body", response.body().getToken());
+                    Toast.makeText(getApplicationContext(), response.body().getToken(), Toast.LENGTH_SHORT).show();
 
                 }
 
                 @Override
-                public void onFailure(Call<Registracion> call, Throwable t) {
+                public void onFailure(Call<RegistroResponse> call, Throwable t) {
 
                     Toast.makeText(getApplicationContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
 

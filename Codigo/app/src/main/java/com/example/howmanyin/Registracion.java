@@ -101,7 +101,7 @@ public class Registracion {
     public String toString() {
         return "Registracion{" +
                 "name='" + name + '\'' +
-                ", lastName='" + lastname + '\'' +
+                ", lastname='" + lastname + '\'' +
                 ", dni='" + dni + '\'' +
                 ", password='" + password + '\'' +
                 ", email='" + email + '\'' +
