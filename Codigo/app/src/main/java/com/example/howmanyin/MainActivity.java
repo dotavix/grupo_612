@@ -147,6 +147,8 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("Response body", response.body().toString());
                 Toast.makeText(getApplicationContext(), response.body().toString(),Toast.LENGTH_SHORT).show();
 
+                loginEvent(response.body());
+
             }
 
             @Override
@@ -161,6 +163,30 @@ public class MainActivity extends AppCompatActivity {
     public void broadcastIntent() {
         registerReceiver(MyReceiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
     }
+
+    public void loginEvent(RegistroResponse response){
+
+        EventRequest eventoLogin = new EventRequest();
+        eventoLogin.setState(response.getState());
+        eventoLogin.setEnv(response.getEnv());
+        eventoLogin.setType_events("Login");
+        eventoLogin.setDescription("Evento del login de un usuario");
+
+        Call<EventResponse> call = jsonPlaceHolderApi.createEvent(response.getToken() ,eventoLogin);
+
+        call.enqueue(new Callback<EventResponse>() {
+            @Override
+            public void onResponse(Call<EventResponse> call, Response<EventResponse> response) {
+                
+            }
+
+            @Override
+            public void onFailure(Call<EventResponse> call, Throwable t) {
+
+            }
+        });
+    }
+
     @Override
     protected void onPause() {
         super.onPause();
