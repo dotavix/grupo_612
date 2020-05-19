@@ -17,6 +17,7 @@ public class SensorActivity extends AppCompatActivity {
     SensorEventListener sensorEventListener;
     int whip = 0;
     EditText cantidad;
+    private final static float ACC = 30;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,15 +39,16 @@ public class SensorActivity extends AppCompatActivity {
             @Override
             public void onSensorChanged(SensorEvent sensorEvent) {
 
-                float x = sensorEvent.values[0];
-                float y = sensorEvent.values[1];
+                //float x = sensorEvent.values[0];
+                //float y = sensorEvent.values[1];
+                float[] values = sensorEvent.values;
 
+                if ((Math.abs(values[0]) > ACC || Math.abs(values[1]) > ACC || Math.abs(values[2]) > ACC)){
+                //if (x > 10 || x < -10 || y < -10 || y > 10){
 
-                if (x > 10 || x < -10 || y < -10 || y > 10){
-
-                    whip++;
                     getWindow().getDecorView().setBackgroundColor(Color.BLUE);
                     cantidad.setText(String.valueOf(whip));
+                    whip+=1;
                 }
 
             }
