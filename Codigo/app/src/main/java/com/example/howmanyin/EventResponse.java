@@ -6,7 +6,7 @@ public class EventResponse {
 
     String env;
 
-    EventRequest eventRes;
+    EventRequest event;
 
     String group;
 
@@ -26,12 +26,12 @@ public class EventResponse {
         this.env = env;
     }
 
-    public EventRequest getEventRes() {
-        return eventRes;
+    public EventRequest getEvent() {
+        return event;
     }
 
-    public void setEventRes(EventRequest eventRes) {
-        this.eventRes = eventRes;
+    public void setEvent(EventRequest event) {
+        this.event = event;
     }
 
     public String getGroup() {
@@ -47,7 +47,7 @@ public class EventResponse {
         return "EventResponse{" +
                 "state='" + state + '\'' +
                 ", env='" + env + '\'' +
-                ", eventRes=" + eventRes +
+                ", event=" + event +
                 ", group='" + group + '\'' +
                 '}';
     }

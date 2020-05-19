@@ -7,18 +7,38 @@
     android:background="#000C0B0B"
     tools:context=".SensorActivity">
 
-    <EditText
-        android:id="@+id/editText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="24dp"
-        android:ems="10"
-        android:foreground="#A2A2B6"
-        android:inputType="textPersonName"
-        android:text="Name"
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="403dp"
+        android:layout_height="52dp"
+        android:layout_marginTop="36dp"
+        android:text="Chequear Acelerometro"
+        android:textAlignment="center"
+        android:textColor="#070707"
+        android:textSize="24sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/editCantidad"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="93dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="105dp"
+        android:cursorVisible="false"
+        android:editable="false"
+        android:ems="10"
+        android:hint="Cantidad de movidas"
+        android:inputType="number"
+        android:textAlignment="center"
+        android:textColor="#0A0A0A"
+        android:textColorHint="#090808"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

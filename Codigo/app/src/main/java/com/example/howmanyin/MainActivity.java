@@ -104,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
         }else{
 
             createUserFromLogin(user , apellido , dni , email , pass );
-            setContentView(R.layout.activity_sensor);
+            openActivityEvent();
         }
     }
 
@@ -113,6 +113,12 @@ public class MainActivity extends AppCompatActivity {
 
         Intent intentRegistro = new Intent(this , LoginActivity.class);
         startActivity(intentRegistro);
+    }
+
+    public void openActivityEvent(){
+
+        Intent intentEvent = new Intent(this , SensorActivity.class);
+        startActivity(intentEvent);
     }
 
     private void createUserFromLogin( String user ,String apellido ,String dni ,String email ,String pass){
@@ -161,14 +167,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void broadcastIntent() {
+
         registerReceiver(MyReceiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
     }
 
     public void loginEvent(RegistroResponse response){
 
         EventRequest eventoLogin = new EventRequest();
-        eventoLogin.setState(response.getState());
-        eventoLogin.setEnv(response.getEnv());
+        eventoLogin.setState("ACTIVO");
+        eventoLogin.setEnv("DEV");
         eventoLogin.setType_events("Login");
         eventoLogin.setDescription("Evento del login de un usuario");
 
@@ -177,20 +184,38 @@ public class MainActivity extends AppCompatActivity {
         call.enqueue(new Callback<EventResponse>() {
             @Override
             public void onResponse(Call<EventResponse> call, Response<EventResponse> response) {
+
+                if (!response.isSuccessful()){
+
+                    Log.d("Response error", String.valueOf(response.code()));
+                    return ;
+                }
+                Log.d("Evento registrado", String.valueOf(response.code()));
+                Log.d("Evento response", response.body().toString());
+                Toast.makeText(getApplicationContext(), response.body().toString(),Toast.LENGTH_SHORT).show();
                 
             }
 
             @Override
             public void onFailure(Call<EventResponse> call, Throwable t) {
 
+                Toast.makeText(getApplicationContext(),t.getMessage(),Toast.LENGTH_SHORT).show();
             }
         });
     }
 
     @Override
     protected void onPause() {
+
         super.onPause();
+
+    }
+
+    @Override
+    protected void onDestroy(){
+
         unregisterReceiver(MyReceiver);
+        super.onDestroy();
     }
 
 }
