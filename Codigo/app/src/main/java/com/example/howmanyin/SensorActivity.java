@@ -26,7 +26,7 @@ public class SensorActivity extends AppCompatActivity {
 
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
 
-        sensorAcelera = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        sensorAcelera = sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
 
         if (sensorAcelera == null){
 
@@ -43,12 +43,23 @@ public class SensorActivity extends AppCompatActivity {
                 //float y = sensorEvent.values[1];
                 float[] values = sensorEvent.values;
 
-                if ((Math.abs(values[0]) > ACC || Math.abs(values[1]) > ACC || Math.abs(values[2]) > ACC)){
-                //if (x > 10 || x < -10 || y < -10 || y > 10){
+                //if ((Math.abs(values[0]) > ACC || Math.abs(values[1]) > ACC || Math.abs(values[2]) > ACC)){
+                if (sensorEvent.values[2] > 5f || sensorEvent.values[2] < -5f){
 
-                    getWindow().getDecorView().setBackgroundColor(Color.BLUE);
                     cantidad.setText(String.valueOf(whip));
-                    whip+=1;
+                    whip++;
+                }
+
+                if (whip >=1 && whip < 3){
+
+                    getWindow().getDecorView().setBackgroundColor(Color.GREEN);
+
+                }else if ( whip >= 3 || whip <= 5){
+
+                    getWindow().getDecorView().setBackgroundColor(Color.YELLOW);
+                }else if ( whip > 5){
+
+                    getWindow().getDecorView().setBackgroundColor(Color.RED);
                 }
 
             }
@@ -80,9 +91,9 @@ public class SensorActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onPostResume() {
+    protected void onResume() {
 
         start();
-        super.onPostResume();
+        super.onResume();
     }
 }
