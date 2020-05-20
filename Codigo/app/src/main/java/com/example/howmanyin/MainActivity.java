@@ -44,7 +44,10 @@ public class MainActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         MyReceiver = new MyReceiver();
+
+        broadcastIntent();
 
         OkHttpClient okHttpClient = UnsafeOkHttpClient.getUnsafeOkHttpClient();
 
@@ -90,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
 
                 validateInputs(user, apellido, dni, email, pass);
 
-                broadcastIntent();
+                //broadcastIntent();
             }
         });
     }
@@ -113,12 +116,14 @@ public class MainActivity extends AppCompatActivity {
 
         Intent intentRegistro = new Intent(this , LoginActivity.class);
         startActivity(intentRegistro);
+        //finish();
     }
 
     public void openActivityEvent(){
 
         Intent intentEvent = new Intent(this , SensorActivity.class);
         startActivity(intentEvent);
+        finish();
     }
 
     private void createUserFromLogin( String user ,String apellido ,String dni ,String email ,String pass){
