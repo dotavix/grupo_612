@@ -9,6 +9,7 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 
 public class SensorActivity extends AppCompatActivity {
 
@@ -17,11 +18,13 @@ public class SensorActivity extends AppCompatActivity {
     SensorEventListener sensorEventListener;
     int whip = 0;
     EditText cantidad;
+    ProgressBar colorBar ;
     private final static float ACC = 30;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_sensor);
 
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
@@ -35,31 +38,39 @@ public class SensorActivity extends AppCompatActivity {
 
         cantidad = findViewById(R.id.editCantidad);
 
+        colorBar = findViewById(R.id.progressBar);
+
+
         sensorEventListener = new SensorEventListener() {
             @Override
             public void onSensorChanged(SensorEvent sensorEvent) {
 
                 //float x = sensorEvent.values[0];
                 //float y = sensorEvent.values[1];
-                float[] values = sensorEvent.values;
+                //float[] values = sensorEvent.values;
 
                 //if ((Math.abs(values[0]) > ACC || Math.abs(values[1]) > ACC || Math.abs(values[2]) > ACC)){
                 if (sensorEvent.values[2] > 5f || sensorEvent.values[2] < -5f){
 
-                    cantidad.setText(String.valueOf(whip));
                     whip++;
+                    cantidad.setText(String.valueOf(whip));
+
                 }
 
                 if (whip >=1 && whip < 3){
 
-                    getWindow().getDecorView().setBackgroundColor(Color.GREEN);
+                    //getWindow().getDecorView().setBackgroundColor(Color.GREEN);
+                    colorBar.setBackgroundColor(Color.GREEN);
 
-                }else if ( whip >= 3 || whip <= 5){
+                }else if ( whip >= 3 && whip <= 5){
 
-                    getWindow().getDecorView().setBackgroundColor(Color.YELLOW);
+                    //getWindow().getDecorView().setBackgroundColor(Color.YELLOW);
+                    colorBar.setBackgroundColor(Color.YELLOW);
+
                 }else if ( whip > 5){
 
-                    getWindow().getDecorView().setBackgroundColor(Color.RED);
+                    //getWindow().getDecorView().setBackgroundColor(Color.RED);
+                    colorBar.setBackgroundColor(Color.RED);
                 }
 
             }
