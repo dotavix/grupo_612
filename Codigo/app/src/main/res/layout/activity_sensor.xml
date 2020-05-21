@@ -109,7 +109,7 @@
         android:id="@+id/buttonConsejo"
         android:layout_width="206dp"
         android:layout_height="58dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="20dp"
         android:background="#FCFAFA"
         android:capitalize="none"
         android:text="Ver consejos"
@@ -119,8 +119,23 @@
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintHorizontal_bias="0.487"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/progressAcelero" />
+
+    <Button
+        android:id="@+id/buttonShow"
+        android:layout_width="182dp"
+        android:layout_height="58dp"
+        android:layout_marginTop="32dp"
+        android:background="#FFFFFF"
+        android:text="Mostrar"
+        android:textColor="#070707"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonConsejo" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

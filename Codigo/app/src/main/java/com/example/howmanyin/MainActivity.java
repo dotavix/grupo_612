@@ -107,24 +107,10 @@ public class MainActivity extends AppCompatActivity {
         }else{
 
             createUserFromLogin(user , apellido , dni , email , pass );
-            openActivityEvent();
+
         }
     }
 
-
-    public void openActivityRegistro(){
-
-        Intent intentRegistro = new Intent(this , LoginActivity.class);
-        startActivity(intentRegistro);
-        //finish();
-    }
-
-    public void openActivityEvent(){
-
-        Intent intentEvent = new Intent(this , SensorActivity.class);
-        startActivity(intentEvent);
-        finish();
-    }
 
     private void createUserFromLogin( String user ,String apellido ,String dni ,String email ,String pass){
 
@@ -149,17 +135,19 @@ public class MainActivity extends AppCompatActivity {
 
                 if (!response.isSuccessful()){
 
-                    Integer resultado = response.code();
-
                     Log.d("Response error", String.valueOf(response.code()));
-                    return ;
+                    Toast.makeText(getApplicationContext(), response.message(),Toast.LENGTH_SHORT).show();
+
                 }
-                Log.d("Response correcto", String.valueOf(response.code()));
-                Log.d("Response body", response.body().toString());
-                Toast.makeText(getApplicationContext(), response.body().toString(),Toast.LENGTH_SHORT).show();
+                else {
 
-                loginEvent(response.body());
+                    Log.d("Response correcto", String.valueOf(response.code()));
+                    Log.d("Response body", response.body().toString());
+                    Toast.makeText(getApplicationContext(), response.body().toString(), Toast.LENGTH_SHORT).show();
 
+                    loginEvent(response.body());
+                    openActivityEvent();
+                }
             }
 
             @Override
@@ -174,6 +162,20 @@ public class MainActivity extends AppCompatActivity {
     public void broadcastIntent() {
 
         registerReceiver(MyReceiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
+    }
+
+    public void openActivityRegistro(){
+
+        Intent intentRegistro = new Intent(this , LoginActivity.class);
+        startActivity(intentRegistro);
+        //finish();
+    }
+
+    public void openActivityEvent(){
+
+        Intent intentEvent = new Intent(this , SensorActivity.class);
+        startActivity(intentEvent);
+        finish();
     }
 
     public void loginEvent(RegistroResponse response){

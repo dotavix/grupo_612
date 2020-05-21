@@ -12,6 +12,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import java.time.Clock;
+
 import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -116,23 +119,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }else{
 
             createUserFromRegister(user , apellido , dni , email , pass );
-            openActivityEvent();
+
         }
-    }
-
-
-    public void openActivityRegistro(){
-
-        Intent intentRegistro = new Intent(this , MainActivity.class);
-        startActivity(intentRegistro);
-        //finish();
-    }
-
-    public void openActivityEvent(){
-
-        Intent intentEvent = new Intent(this , SensorActivity.class);
-        startActivity(intentEvent);
-        finish();
     }
 
     private void createUserFromRegister (String user, String apellido, String dni, String email, String pass){
@@ -161,14 +149,17 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         Integer resultado = response.code();
 
                         Log.d("Response error", String.valueOf(response.code()));
-                        return;
+                        Toast.makeText(getApplicationContext(), response.message(),Toast.LENGTH_SHORT).show();
                     }
+                    else{
 
-                    Log.d("Response correcto", String.valueOf(response.code()));
-                    Log.d("Response body", response.body().getToken());
-                    Toast.makeText(getApplicationContext(), response.body().getToken(), Toast.LENGTH_SHORT).show();
+                        Log.d("Response correcto", String.valueOf(response.code()));
+                        Log.d("Response body", response.body().getToken());
+                        Toast.makeText(getApplicationContext(), response.body().getToken(), Toast.LENGTH_SHORT).show();
 
-                    loginEvent(response.body());
+                        loginEvent(response.body());
+                        openActivityEvent();
+                    }
                 }
 
                 @Override
@@ -180,18 +171,18 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             });
         }
 
-    @Override
-    protected void onPause() {
+    public void openActivityRegistro(){
 
-        super.onPause();
-
+        Intent intentRegistro = new Intent(this , MainActivity.class);
+        startActivity(intentRegistro);
+        //finish();
     }
 
-    @Override
-    protected void onDestroy(){
+    public void openActivityEvent(){
 
-        unregisterReceiver(MyReceiver);
-        super.onDestroy();
+        Intent intentEvent = new Intent(this , SensorActivity.class);
+        startActivity(intentEvent);
+        finish();
     }
 
     public void loginEvent(RegistroResponse response){
@@ -225,5 +216,19 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 Toast.makeText(getApplicationContext(),t.getMessage(),Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    @Override
+    protected void onPause() {
+
+        super.onPause();
+
+    }
+
+    @Override
+    protected void onDestroy(){
+
+        unregisterReceiver(MyReceiver);
+        super.onDestroy();
     }
 }

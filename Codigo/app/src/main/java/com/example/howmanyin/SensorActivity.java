@@ -2,14 +2,19 @@ package com.example.howmanyin;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 public class SensorActivity extends AppCompatActivity {
 
@@ -19,6 +24,9 @@ public class SensorActivity extends AppCompatActivity {
     int whip = 0;
     EditText cantidad;
     ProgressBar colorBar ;
+    Button guardarPrefers;
+    Button mostrarPrefers;
+    String key = "KEY";
     private final static float ACC = 30;
 
     @Override
@@ -35,6 +43,32 @@ public class SensorActivity extends AppCompatActivity {
 
             finish();
         }
+
+        guardarPrefers = findViewById(R.id.buttonConsejo);
+        mostrarPrefers = findViewById(R.id.buttonShow);
+
+        final SharedPreferences prefers = PreferenceManager.getDefaultSharedPreferences(this);
+
+        guardarPrefers.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                SharedPreferences.Editor editor = prefers.edit();
+                editor.putString( key ,"DATO");
+                editor.apply();
+                Toast.makeText(getApplicationContext(), "Se guardo el dato" , Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
+        mostrarPrefers.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                String dato = prefers.getString(key , "No hay datos");
+                Toast.makeText(getApplicationContext(), dato , Toast.LENGTH_SHORT).show();
+            }
+        });
 
         cantidad = findViewById(R.id.editCantidad);
 
