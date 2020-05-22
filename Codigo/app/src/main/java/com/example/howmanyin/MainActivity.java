@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.BroadcastReceiver;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.util.Log;
@@ -42,6 +43,11 @@ public class MainActivity extends AppCompatActivity {
     EditText textoEmail;
 
     EditText textoDNI;
+
+    SharedPreferences sharedpreferences;
+
+    public static final String mypreference = "sensorInfo";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,6 +106,7 @@ public class MainActivity extends AppCompatActivity {
                 //broadcastIntent();
             }
         });
+
     }
 
     private void validateInputs(String user , String apellido , String dni , String email , String pass){
@@ -181,6 +188,12 @@ public class MainActivity extends AppCompatActivity {
 
                     loginEvent(response.body());
                     openActivityEvent();
+                    sharedpreferences = getSharedPreferences(mypreference ,MODE_PRIVATE);
+
+                    SharedPreferences.Editor editor = sharedpreferences.edit();
+                    editor.putString("userKey", response.body().getToken());
+
+                    editor.commit();
                 }
             }
 

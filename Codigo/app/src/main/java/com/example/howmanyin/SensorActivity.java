@@ -19,21 +19,28 @@ import android.widget.Toast;
 
 public class SensorActivity extends AppCompatActivity {
 
+    int giro = 0;
+    int acelero = 0;
     SensorManager sensorManager;
+    SensorManager sensorManagerAcelero;
     Sensor sensorAcelera;
+    Sensor sensorGiroscopo;
     SensorEventListener sensorEventListener;
-    int whip = 0;
+    SensorEventListener sensorEventListenerAcelero;
     EditText cantidad;
+    EditText cantidadAcelero;
     EditText mostrarSensoreInfo;
     ProgressBar colorBar ;
+    ProgressBar colorBarAcelero;
     Button guardarPrefers;
     Button mostrarPrefers;
     private final static float ACC = 30;
     SharedPreferences sharedpreferences;
-    public static final String mypreference = "mypref";
-    public static final String name = "nameKey";
-    public static final String usuario = "Usuario";
-    public static final String cantidadGiros = "emailKey";
+    public static final String mypreference = "sensorInfo";
+    public static final String name = "userKey";
+    //public static final String usuario = "Usuario";
+    public static final String cantidadGiros = "giroKey";
+    public static final String cantidadAcel = "aceleroKey";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,11 +48,30 @@ public class SensorActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_sensor);
 
+        guardarPrefers = findViewById(R.id.buttonMostrar);
+
+        mostrarPrefers = findViewById(R.id.buttonShow);
+
+        mostrarSensoreInfo = findViewById(R.id.editSensor);
+
+        cantidad = findViewById(R.id.editCantidad);
+
+        colorBar = findViewById(R.id.progressBar);
+
+
+        cantidadAcelero = findViewById(R.id.editAcelero);
+
+        colorBarAcelero = findViewById(R.id.progressAcelero);
+
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
 
-        sensorAcelera = sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
+        sensorGiroscopo = sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
 
-        if (sensorAcelera == null){
+        sensorManagerAcelero = (SensorManager) getSystemService(SENSOR_SERVICE);
+
+        sensorAcelera = sensorManagerAcelero.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+
+        if (sensorGiroscopo == null && sensorAcelera == null){
 
             finish();
         }
@@ -63,16 +89,21 @@ public class SensorActivity extends AppCompatActivity {
 
         }
 
-        guardarPrefers = findViewById(R.id.buttonMostrar);
-        mostrarPrefers = findViewById(R.id.buttonShow);
+        if (sharedpreferences.contains(cantidadAcel)) {
+
+            sharedpreferences.getInt(cantidadAcel, 0);
+
+        }
 
         guardarPrefers.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
                 SharedPreferences.Editor editor = sharedpreferences.edit();
-                editor.putString(name, usuario);
-                editor.putInt(cantidadGiros, whip);
+                //editor.putString(name, usuario);
+                editor.putInt(cantidadGiros, giro);
+                editor.putInt(cantidadAcel, acelero);
+
                 editor.commit();
 
                 Toast.makeText(getApplicationContext(), "Datos Guardados" , Toast.LENGTH_SHORT).show();
@@ -80,17 +111,13 @@ public class SensorActivity extends AppCompatActivity {
             }
         });
 
-        mostrarSensoreInfo = findViewById(R.id.editSensor);
-
         mostrarPrefers.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                sharedpreferences = getSharedPreferences(mypreference,
-                        Context.MODE_PRIVATE);
-
                 String userMostrar = "";
                 int cantidadMostrar = 0;
+                int cantidadMostrarAcelero = 0;
 
                 if (sharedpreferences.contains(name)) {
 
@@ -102,14 +129,16 @@ public class SensorActivity extends AppCompatActivity {
 
                 }
 
-                mostrarSensoreInfo.setText("Usuario: " + userMostrar + "\n" + "Cantidad de giros: " + cantidadMostrar);
-                Toast.makeText(getApplicationContext(), "Usuario: " + userMostrar + "\n" + "Cantidad de giros: " + cantidadMostrar , Toast.LENGTH_SHORT).show();
+                if (sharedpreferences.contains(cantidadAcel)) {
+
+                    cantidadMostrarAcelero = sharedpreferences.getInt(cantidadAcel, 0);
+
+                }
+
+                mostrarSensoreInfo.setText("Usuario: " + userMostrar + "\n" + "Cantidad de giros: " + cantidadMostrar + "\n" + "Cantidad de movimientos: " + cantidadMostrarAcelero);
+                Toast.makeText(getApplicationContext(), "Usuario: " + userMostrar + "\n" + "Cantidad de giros: " + cantidadMostrar + "\n" + "Cantidad de movimientos: " + cantidadMostrarAcelero , Toast.LENGTH_SHORT).show();
             }
         });
-
-        cantidad = findViewById(R.id.editCantidad);
-
-        colorBar = findViewById(R.id.progressBar);
 
 
         sensorEventListener = new SensorEventListener() {
@@ -123,22 +152,22 @@ public class SensorActivity extends AppCompatActivity {
                 //if ((Math.abs(values[0]) > ACC || Math.abs(values[1]) > ACC || Math.abs(values[2]) > ACC)){
                 if (sensorEvent.values[2] > 5f || sensorEvent.values[2] < -5f){
 
-                    whip++;
-                    cantidad.setText(String.valueOf(whip));
+                    giro++;
+                    cantidad.setText(String.valueOf(giro));
 
                 }
 
-                if (whip >=1 && whip < 3){
+                if (giro >=1 && giro < 3){
 
                     //getWindow().getDecorView().setBackgroundColor(Color.GREEN);
                     colorBar.setBackgroundColor(Color.GREEN);
 
-                }else if ( whip >= 3 && whip <= 5){
+                }else if ( giro >= 3 && giro <= 5){
 
                     //getWindow().getDecorView().setBackgroundColor(Color.YELLOW);
                     colorBar.setBackgroundColor(Color.YELLOW);
 
-                }else if ( whip > 5){
+                }else if ( giro > 5){
 
                     //getWindow().getDecorView().setBackgroundColor(Color.RED);
                     colorBar.setBackgroundColor(Color.RED);
@@ -152,17 +181,58 @@ public class SensorActivity extends AppCompatActivity {
             }
         };
 
+        sensorEventListenerAcelero = new SensorEventListener() {
+            @Override
+            public void onSensorChanged(SensorEvent sensorEvent) {
+
+                //float x = sensorEvent.values[0];
+                //float y = sensorEvent.values[1];
+                //float[] values = sensorEvent.values;
+
+                //if ((Math.abs(values[0]) > ACC || Math.abs(values[1]) > ACC || Math.abs(values[2]) > ACC)){
+                if ( -sensorEvent.values[0] > ACC && -sensorEvent.values[1] > ACC){
+
+                    acelero++;
+                    cantidadAcelero.setText(String.valueOf(acelero));
+
+                }
+
+                if (acelero >=1 && acelero < 3){
+
+                    colorBarAcelero.setBackgroundColor(Color.GREEN);
+
+                }else if ( acelero >= 3 && acelero <= 5){
+
+                    colorBarAcelero.setBackgroundColor(Color.YELLOW);
+
+                }else if ( acelero > 5){
+
+                    colorBarAcelero.setBackgroundColor(Color.RED);
+                }
+
+            }
+
+            @Override
+            public void onAccuracyChanged(Sensor sensor, int i) {
+
+            }
+        };
+
+
         start();
     }
 
     private void start(){
 
-        sensorManager.registerListener(sensorEventListener,sensorAcelera,SensorManager.SENSOR_DELAY_NORMAL);
+        sensorManager.registerListener(sensorEventListener,sensorGiroscopo,SensorManager.SENSOR_DELAY_NORMAL);
+        sensorManager.registerListener(sensorEventListenerAcelero,sensorAcelera,SensorManager.SENSOR_DELAY_NORMAL);
     }
 
     private void stop(){
 
         sensorManager.unregisterListener(sensorEventListener);
+        sensorManagerAcelero.unregisterListener(sensorEventListenerAcelero);
+
     }
 
     @Override
