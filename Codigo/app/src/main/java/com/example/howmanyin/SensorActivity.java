@@ -2,6 +2,7 @@ package com.example.howmanyin;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.hardware.Sensor;
@@ -23,11 +24,16 @@ public class SensorActivity extends AppCompatActivity {
     SensorEventListener sensorEventListener;
     int whip = 0;
     EditText cantidad;
+    EditText mostrarSensoreInfo;
     ProgressBar colorBar ;
     Button guardarPrefers;
     Button mostrarPrefers;
-    String key = "KEY";
     private final static float ACC = 30;
+    SharedPreferences sharedpreferences;
+    public static final String mypreference = "mypref";
+    public static final String name = "nameKey";
+    public static final String usuario = "Usuario";
+    public static final String cantidadGiros = "emailKey";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,29 +50,60 @@ public class SensorActivity extends AppCompatActivity {
             finish();
         }
 
-        guardarPrefers = findViewById(R.id.buttonConsejo);
-        mostrarPrefers = findViewById(R.id.buttonShow);
+        sharedpreferences = getSharedPreferences(mypreference,
+                Context.MODE_PRIVATE);
 
-        final SharedPreferences prefers = PreferenceManager.getDefaultSharedPreferences(this);
+        if (sharedpreferences.contains(name)) {
+
+            sharedpreferences.getString(name, "");
+        }
+        if (sharedpreferences.contains(cantidadGiros)) {
+
+            sharedpreferences.getInt(cantidadGiros, 0);
+
+        }
+
+        guardarPrefers = findViewById(R.id.buttonMostrar);
+        mostrarPrefers = findViewById(R.id.buttonShow);
 
         guardarPrefers.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                SharedPreferences.Editor editor = prefers.edit();
-                editor.putString( key ,"DATO");
-                editor.apply();
-                Toast.makeText(getApplicationContext(), "Se guardo el dato" , Toast.LENGTH_SHORT).show();
+                SharedPreferences.Editor editor = sharedpreferences.edit();
+                editor.putString(name, usuario);
+                editor.putInt(cantidadGiros, whip);
+                editor.commit();
+
+                Toast.makeText(getApplicationContext(), "Datos Guardados" , Toast.LENGTH_SHORT).show();
 
             }
         });
+
+        mostrarSensoreInfo = findViewById(R.id.editSensor);
 
         mostrarPrefers.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                String dato = prefers.getString(key , "No hay datos");
-                Toast.makeText(getApplicationContext(), dato , Toast.LENGTH_SHORT).show();
+                sharedpreferences = getSharedPreferences(mypreference,
+                        Context.MODE_PRIVATE);
+
+                String userMostrar = "";
+                int cantidadMostrar = 0;
+
+                if (sharedpreferences.contains(name)) {
+
+                    userMostrar = sharedpreferences.getString(name, "");
+                }
+                if (sharedpreferences.contains(cantidadGiros)) {
+
+                    cantidadMostrar = sharedpreferences.getInt(cantidadGiros, 0);
+
+                }
+
+                mostrarSensoreInfo.setText("Usuario: " + userMostrar + "\n" + "Cantidad de giros: " + cantidadMostrar);
+                Toast.makeText(getApplicationContext(), "Usuario: " + userMostrar + "\n" + "Cantidad de giros: " + cantidadMostrar , Toast.LENGTH_SHORT).show();
             }
         });
 

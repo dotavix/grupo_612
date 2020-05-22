@@ -12,6 +12,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -104,11 +108,41 @@ public class MainActivity extends AppCompatActivity {
 
             Toast.makeText(this,"No ha completado los campos",Toast.LENGTH_SHORT).show();
 
-        }else{
+        } else{
 
-            createUserFromLogin(user , apellido , dni , email , pass );
+            if (!isValidEmail(email)) {
 
+                Log.i("Validar email", email);
+                Toast.makeText(getApplicationContext(),"Email inválido", Toast.LENGTH_SHORT).show();
+
+            }else if (!isValidPassword(pass)){
+
+                Log.i("Validar pass", pass);
+                Toast.makeText(getApplicationContext(),"Password inválido", Toast.LENGTH_SHORT).show();
+
+            } else
+            {
+                createUserFromLogin(user, apellido, dni, email, pass);
+
+            }
         }
+    }
+
+    private boolean isValidEmail(String email) {
+        String EMAIL_PATTERN = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
+                + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+
+        Pattern pattern = Pattern.compile(EMAIL_PATTERN);
+        Matcher matcher = pattern.matcher(email);
+        return matcher.matches();
+    }
+
+    // validating password with retype password
+    private boolean isValidPassword(String pass) {
+        if (pass != null && pass.length() > 8) {
+            return true;
+        }
+        return false;
     }
 
 
