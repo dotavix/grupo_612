@@ -63,14 +63,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         jsonPlaceHolderApi = retrofit.create(JsonPlaceHolderApi.class);
 
 
-         cancelar = findViewById(R.id.cancelar);
          confirmar = findViewById(R.id.confirmar);
-
-         cancelar.setOnClickListener(this);
          confirmar.setOnClickListener(this);
 
     }
-
 
     @Override
     public void onClick(View view) {
@@ -98,10 +94,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
                 break;
 
-            case R.id.cancelar:
-
-                openActivityRegistro();
-                break;
         }
     }
 
@@ -145,7 +137,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         return matcher.matches();
     }
 
-    // validating password with retype password
     private boolean isValidPassword(String pass) {
         if (pass != null && pass.length() > 8) {
             return true;
@@ -176,10 +167,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
                     if (!response.isSuccessful()) {
 
-                        Integer resultado = response.code();
-
                         Log.d("Response error", String.valueOf(response.code()));
-                        Toast.makeText(getApplicationContext(), response.message(),Toast.LENGTH_SHORT).show();
+                        if (response.message().equals("Bad Request")) {
+
+                            Toast.makeText(getApplicationContext(), "Email o password no registrados", Toast.LENGTH_SHORT).show();
+                        }
                     }
                     else{
 
@@ -232,8 +224,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 if (!response.isSuccessful()){
 
                     Log.d("Response error", String.valueOf(response.code()));
-                    return ;
                 }
+
                 Log.d("Evento registrado", String.valueOf(response.code()));
                 Log.d("Evento response", response.body().toString());
                 Toast.makeText(getApplicationContext(), response.body().toString(),Toast.LENGTH_SHORT).show();

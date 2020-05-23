@@ -41,10 +41,8 @@ public class SensorActivity extends AppCompatActivity {
     Button mostrarPrefers;
     private final static float ACC = 30;
     SharedPreferences sharedpreferences;
-    public static final String mypreference = "Info";
+    public static final String mypreference = "Infor";
     public static final String name = "userKey";
-    public static final String cantidadGiros = "giroKey";
-    public static final String cantidadAcel = "aceleroKey";
     String emailSearch;
     int incremento = 0;
 
@@ -88,31 +86,13 @@ public class SensorActivity extends AppCompatActivity {
         sharedpreferences = getSharedPreferences(mypreference,
                 Context.MODE_PRIVATE);
 
-/*       if (sharedpreferences.contains(name)) {
-
-            sharedpreferences.getString(name, "");
-        }
-        if (sharedpreferences.contains(cantidadGiros)) {
-
-            sharedpreferences.getInt(cantidadGiros, 0);
-
-        }
-
-        if (sharedpreferences.contains(cantidadAcel)) {
-
-            sharedpreferences.getInt(cantidadAcel, 0);
-
-        }*/
 
         guardarPrefers.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
                 SharedPreferences.Editor editor = sharedpreferences.edit();
-                editor.putString(name + incremento, emailSearch + giro + acelero);
-                //editor.putInt(cantidadGiros, giro);
-                //editor.putInt(cantidadAcel, acelero);
-
+                editor.putString(name + incremento, emailSearch + " " + giro + " " + acelero);
                 editor.apply();
 
                 Toast.makeText(getApplicationContext(), "Datos Guardados" , Toast.LENGTH_SHORT).show();
@@ -120,38 +100,11 @@ public class SensorActivity extends AppCompatActivity {
             }
         });
 
-        final String[] userMostrar = new String[1];
-        final int[] cantidadMostrar = {0};
-        final int[] cantidadMostrarAcelero = {0};
 
         mostrarPrefers.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-/*                if (sharedpreferences.contains(name)) {
-
-                    userMostrar[0] = sharedpreferences.getString(name, "");
-
-                    Log.d("Usuario key: ", userMostrar[0]);
-
-                    if (userMostrar[0].equals(emailSearch)){
-
-                        if (sharedpreferences.contains(cantidadGiros)) {
-
-                            cantidadMostrar[0] = sharedpreferences.getInt(cantidadGiros, 0);
-
-                        }
-
-                        if (sharedpreferences.contains(cantidadAcel)) {
-
-                            cantidadMostrarAcelero[0] = sharedpreferences.getInt(cantidadAcel, 0);
-
-                        }
-                        mostrarSensoreInfo.setText("Usuario: " + userMostrar[0] + "\n" + "Cantidad de giros: " + cantidadMostrar[0] + "\n" + "Cantidad de movimientos: " + cantidadMostrarAcelero[0]);
-                        Toast.makeText(getApplicationContext(), "Usuario: " + userMostrar[0] + "\n" + "Cantidad de giros: " + cantidadMostrar[0] + "\n" + "Cantidad de movimientos: " + cantidadMostrarAcelero[0], Toast.LENGTH_SHORT).show();
-                    }
-
-                }*/
                 Map<String,?> keys = sharedpreferences.getAll();
 
                 String mostrar= "";
@@ -160,8 +113,9 @@ public class SensorActivity extends AppCompatActivity {
 
                     if (entry.getValue().toString().contains(emailSearch)) {
 
+                        String[] nombre =entry.getValue().toString().split(" ");
                         Log.d("Clave email", entry.getKey() + "Cantidad" + entry.getValue().toString());
-                        mostrar = mostrar + "Usuario: " + entry.getKey() + "\n" + "Cantidad de giros: " + entry.getValue().toString() + "\n";
+                        mostrar = mostrar + "Usuario: " + nombre[0] + "\n" + "Cantidad de giros: " + nombre[1] + "\n" + "Cantidad aceleradas: " + nombre[2] + "\n";
                     }
                 }
                 mostrarSensoreInfo.setText(mostrar);
@@ -175,11 +129,6 @@ public class SensorActivity extends AppCompatActivity {
             @Override
             public void onSensorChanged(SensorEvent sensorEvent) {
 
-                //float x = sensorEvent.values[0];
-                //float y = sensorEvent.values[1];
-                //float[] values = sensorEvent.values;
-
-                //if ((Math.abs(values[0]) > ACC || Math.abs(values[1]) > ACC || Math.abs(values[2]) > ACC)){
                 if (sensorEvent.values[2] > 5f || sensorEvent.values[2] < -5f){
 
                     giro++;
@@ -189,17 +138,14 @@ public class SensorActivity extends AppCompatActivity {
 
                 if (giro >=1 && giro < 3){
 
-                    //getWindow().getDecorView().setBackgroundColor(Color.GREEN);
                     colorBar.setBackgroundColor(Color.GREEN);
 
                 }else if ( giro >= 3 && giro <= 5){
 
-                    //getWindow().getDecorView().setBackgroundColor(Color.YELLOW);
                     colorBar.setBackgroundColor(Color.YELLOW);
 
                 }else if ( giro > 5){
 
-                    //getWindow().getDecorView().setBackgroundColor(Color.RED);
                     colorBar.setBackgroundColor(Color.RED);
                 }
 
@@ -220,7 +166,7 @@ public class SensorActivity extends AppCompatActivity {
                 //float[] values = sensorEvent.values;
 
                 //if ((Math.abs(values[0]) > ACC || Math.abs(values[1]) > ACC || Math.abs(values[2]) > ACC)){
-                if ( -sensorEvent.values[0] > ACC && -sensorEvent.values[1] > ACC){
+                if ( -sensorEvent.values[1] > ACC && -sensorEvent.values[2] > ACC){
 
                     acelero++;
                     cantidadAcelero.setText(String.valueOf(acelero));

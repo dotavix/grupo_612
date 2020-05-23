@@ -15,9 +15,8 @@
         style="@android:style/Widget.Button"
         android:layout_width="168dp"
         android:layout_height="50dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginEnd="24dp"
-        android:layout_marginBottom="60dp"
+        android:layout_marginTop="46dp"
+        android:layout_marginBottom="68dp"
         android:background="#F7F7F8"
         android:clickable="true"
         android:cursorVisible="true"
@@ -28,32 +27,9 @@
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/cancelar"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:id="@+id/cancelar"
-        style="@style/Widget.AppCompat.Button"
-        android:layout_width="168dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginEnd="24dp"
-        android:layout_marginBottom="60dp"
-        android:background="#FFFFFF"
-        android:capitalize="none"
-        android:clickable="true"
-        android:cursorVisible="true"
-        android:enabled="false"
-        android:text="Cancelar"
-        android:textAlignment="center"
-        android:textAllCaps="false"
-        android:textColor="#0E0D0D"
-        android:textColorHighlight="#0E0D0D"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/confirmar" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextPass" />
 
     <EditText
         android:id="@+id/editTextNombre"
