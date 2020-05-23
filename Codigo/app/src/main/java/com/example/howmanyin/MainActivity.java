@@ -44,10 +44,6 @@ public class MainActivity extends AppCompatActivity {
 
     EditText textoDNI;
 
-    SharedPreferences sharedpreferences;
-
-    public static final String mypreference = "sensorInfo";
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -155,7 +151,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void createUserFromLogin( String user ,String apellido ,String dni ,String email ,String pass){
 
-        Registracion reg = new Registracion();
+        final Registracion reg = new Registracion();
 
         reg.setName(user);
         reg.setLastname(apellido);
@@ -177,23 +173,21 @@ public class MainActivity extends AppCompatActivity {
                 if (!response.isSuccessful()){
 
                     Log.d("Response error", String.valueOf(response.code()));
-                    Toast.makeText(getApplicationContext(), response.message(),Toast.LENGTH_SHORT).show();
+                    if (response.message().equals("Bad Request")) {
 
+                        Toast.makeText(getApplicationContext(), "Email o password no registrados", Toast.LENGTH_SHORT).show();
+                    }
                 }
                 else {
 
                     Log.d("Response correcto", String.valueOf(response.code()));
                     Log.d("Response body", response.body().toString());
+
                     Toast.makeText(getApplicationContext(), response.body().toString(), Toast.LENGTH_SHORT).show();
 
                     loginEvent(response.body());
-                    openActivityEvent();
-                    sharedpreferences = getSharedPreferences(mypreference ,MODE_PRIVATE);
+                    openActivityEvent(reg);
 
-                    SharedPreferences.Editor editor = sharedpreferences.edit();
-                    editor.putString("userKey", response.body().getToken());
-
-                    editor.commit();
                 }
             }
 
@@ -218,9 +212,10 @@ public class MainActivity extends AppCompatActivity {
         //finish();
     }
 
-    public void openActivityEvent(){
+    public void openActivityEvent(Registracion response){
 
         Intent intentEvent = new Intent(this , SensorActivity.class);
+        intentEvent.putExtra("mail" , response.getEmail());
         startActivity(intentEvent);
         finish();
     }

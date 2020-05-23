@@ -11,11 +11,16 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.text.method.ScrollingMovementMethod;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.Map;
 
 public class SensorActivity extends AppCompatActivity {
 
@@ -29,18 +34,19 @@ public class SensorActivity extends AppCompatActivity {
     SensorEventListener sensorEventListenerAcelero;
     EditText cantidad;
     EditText cantidadAcelero;
-    EditText mostrarSensoreInfo;
+    TextView mostrarSensoreInfo;
     ProgressBar colorBar ;
     ProgressBar colorBarAcelero;
     Button guardarPrefers;
     Button mostrarPrefers;
     private final static float ACC = 30;
     SharedPreferences sharedpreferences;
-    public static final String mypreference = "sensorInfo";
+    public static final String mypreference = "Info";
     public static final String name = "userKey";
-    //public static final String usuario = "Usuario";
     public static final String cantidadGiros = "giroKey";
     public static final String cantidadAcel = "aceleroKey";
+    String emailSearch;
+    int incremento = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +64,7 @@ public class SensorActivity extends AppCompatActivity {
 
         colorBar = findViewById(R.id.progressBar);
 
+        Bundle extras = getIntent().getExtras();
 
         cantidadAcelero = findViewById(R.id.editAcelero);
 
@@ -76,10 +83,12 @@ public class SensorActivity extends AppCompatActivity {
             finish();
         }
 
+        emailSearch = extras.getString("mail");
+
         sharedpreferences = getSharedPreferences(mypreference,
                 Context.MODE_PRIVATE);
 
-        if (sharedpreferences.contains(name)) {
+/*       if (sharedpreferences.contains(name)) {
 
             sharedpreferences.getString(name, "");
         }
@@ -93,50 +102,71 @@ public class SensorActivity extends AppCompatActivity {
 
             sharedpreferences.getInt(cantidadAcel, 0);
 
-        }
+        }*/
 
         guardarPrefers.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
                 SharedPreferences.Editor editor = sharedpreferences.edit();
-                //editor.putString(name, usuario);
-                editor.putInt(cantidadGiros, giro);
-                editor.putInt(cantidadAcel, acelero);
+                editor.putString(name + incremento, emailSearch + giro + acelero);
+                //editor.putInt(cantidadGiros, giro);
+                //editor.putInt(cantidadAcel, acelero);
 
-                editor.commit();
+                editor.apply();
 
                 Toast.makeText(getApplicationContext(), "Datos Guardados" , Toast.LENGTH_SHORT).show();
-
+                incremento++;
             }
         });
+
+        final String[] userMostrar = new String[1];
+        final int[] cantidadMostrar = {0};
+        final int[] cantidadMostrarAcelero = {0};
 
         mostrarPrefers.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                String userMostrar = "";
-                int cantidadMostrar = 0;
-                int cantidadMostrarAcelero = 0;
+/*                if (sharedpreferences.contains(name)) {
 
-                if (sharedpreferences.contains(name)) {
+                    userMostrar[0] = sharedpreferences.getString(name, "");
 
-                    userMostrar = sharedpreferences.getString(name, "");
+                    Log.d("Usuario key: ", userMostrar[0]);
+
+                    if (userMostrar[0].equals(emailSearch)){
+
+                        if (sharedpreferences.contains(cantidadGiros)) {
+
+                            cantidadMostrar[0] = sharedpreferences.getInt(cantidadGiros, 0);
+
+                        }
+
+                        if (sharedpreferences.contains(cantidadAcel)) {
+
+                            cantidadMostrarAcelero[0] = sharedpreferences.getInt(cantidadAcel, 0);
+
+                        }
+                        mostrarSensoreInfo.setText("Usuario: " + userMostrar[0] + "\n" + "Cantidad de giros: " + cantidadMostrar[0] + "\n" + "Cantidad de movimientos: " + cantidadMostrarAcelero[0]);
+                        Toast.makeText(getApplicationContext(), "Usuario: " + userMostrar[0] + "\n" + "Cantidad de giros: " + cantidadMostrar[0] + "\n" + "Cantidad de movimientos: " + cantidadMostrarAcelero[0], Toast.LENGTH_SHORT).show();
+                    }
+
+                }*/
+                Map<String,?> keys = sharedpreferences.getAll();
+
+                String mostrar= "";
+
+                for(Map.Entry<String,?> entry : keys.entrySet()){
+
+                    if (entry.getValue().toString().contains(emailSearch)) {
+
+                        Log.d("Clave email", entry.getKey() + "Cantidad" + entry.getValue().toString());
+                        mostrar = mostrar + "Usuario: " + entry.getKey() + "\n" + "Cantidad de giros: " + entry.getValue().toString() + "\n";
+                    }
                 }
-                if (sharedpreferences.contains(cantidadGiros)) {
+                mostrarSensoreInfo.setText(mostrar);
+                mostrarSensoreInfo.setMovementMethod(new ScrollingMovementMethod());
 
-                    cantidadMostrar = sharedpreferences.getInt(cantidadGiros, 0);
-
-                }
-
-                if (sharedpreferences.contains(cantidadAcel)) {
-
-                    cantidadMostrarAcelero = sharedpreferences.getInt(cantidadAcel, 0);
-
-                }
-
-                mostrarSensoreInfo.setText("Usuario: " + userMostrar + "\n" + "Cantidad de giros: " + cantidadMostrar + "\n" + "Cantidad de movimientos: " + cantidadMostrarAcelero);
-                Toast.makeText(getApplicationContext(), "Usuario: " + userMostrar + "\n" + "Cantidad de giros: " + cantidadMostrar + "\n" + "Cantidad de movimientos: " + cantidadMostrarAcelero , Toast.LENGTH_SHORT).show();
             }
         });
 

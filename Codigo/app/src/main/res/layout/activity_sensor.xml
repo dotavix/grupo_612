@@ -146,7 +146,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/progressAcelero" />
 
-    <EditText
+    <TextView
         android:id="@+id/editSensor"
         android:layout_width="306dp"
         android:layout_height="197dp"
@@ -155,13 +155,11 @@
         android:layout_marginEnd="24dp"
         android:autoText="false"
         android:background="#FFFFFF"
-        android:clickable="false"
         android:cursorVisible="false"
         android:editable="false"
         android:ems="10"
-        android:enabled="false"
-        android:gravity="start|top"
-        android:inputType="textMultiLine"
+        android:scrollbars="vertical"
+        android:textColor="#0B0B0B"
         android:textColorHighlight="#0A0A0A"
         android:textColorHint="#FA0A0A0A"
         android:textSize="24sp"

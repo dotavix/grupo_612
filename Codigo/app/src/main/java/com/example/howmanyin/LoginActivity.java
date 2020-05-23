@@ -28,17 +28,17 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private BroadcastReceiver MyReceiver = null;
 
-    EditText textoUsuario ;
+    EditText textoUsuario;
 
-    EditText textoCont ;
+    EditText textoCont;
 
-    EditText textApellido ;
+    EditText textApellido;
 
-    EditText textoEmail ;
+    EditText textoEmail;
 
     EditText textoDNI;
 
-    Button cancelar ;
+    Button cancelar;
 
     Button confirmar;
 
