@@ -13,9 +13,9 @@
     <Button
         android:id="@+id/confirmar"
         style="@android:style/Widget.Button"
-        android:layout_width="168dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="46dp"
+        android:layout_width="222dp"
+        android:layout_height="57dp"
+        android:layout_marginTop="32dp"
         android:layout_marginBottom="68dp"
         android:background="#F7F7F8"
         android:clickable="true"
