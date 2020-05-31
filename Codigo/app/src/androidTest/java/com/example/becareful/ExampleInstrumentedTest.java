@@ -1,4 +1,4 @@
-package com.example.howmanyin;
+package com.example.becareful;
 
 import android.content.Context;
 
@@ -22,6 +22,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
 
-        assertEquals("com.example.howmanyin", appContext.getPackageName());
+        assertEquals("com.example.becareful", appContext.getPackageName());
     }
 }

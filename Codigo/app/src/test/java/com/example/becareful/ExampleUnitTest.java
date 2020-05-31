@@ -1,4 +1,4 @@
-package com.example.howmanyin;
+package com.example.becareful;
 
 import org.junit.Test;
 

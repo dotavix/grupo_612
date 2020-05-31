@@ -1,4 +1,4 @@
-package com.example.howmanyin;
+package com.example.becareful;
 
 import android.content.Context;
 import android.net.ConnectivityManager;

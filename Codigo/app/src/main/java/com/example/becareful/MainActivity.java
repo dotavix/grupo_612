@@ -1,6 +1,7 @@
-package com.example.howmanyin;
+package com.example.becareful;
 
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.content.BroadcastReceiver;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -15,18 +16,19 @@ import android.widget.Toast;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
-public class LoginActivity extends AppCompatActivity implements View.OnClickListener{
+public class MainActivity extends AppCompatActivity {
+
+    private BroadcastReceiver MyReceiver = null;
 
     private JsonPlaceHolderApi jsonPlaceHolderApi;
 
-    private BroadcastReceiver MyReceiver = null;
+    Button botonRegistrar;
+
+    Button botonIngresar;
 
     EditText textoUsuario;
 
@@ -38,68 +40,65 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     EditText textoDNI;
 
-    Button cancelar;
-
-    Button confirmar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_main);
 
         MyReceiver = new MyReceiver();
 
         broadcastIntent();
 
-        OkHttpClient okHttpClient = UnsafeOkHttpClient.getUnsafeOkHttpClient();
+/*        OkHttpClient okHttpClient = UnsafeOkHttpClient.getUnsafeOkHttpClient();
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("http://so-unlam.net.ar/api/api/")
                 .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create())
-                .build();
+                .build();*/
 
-        jsonPlaceHolderApi = retrofit.create(JsonPlaceHolderApi.class);
+        jsonPlaceHolderApi = ApiClient.getClient().create(JsonPlaceHolderApi.class);
 
+        botonRegistrar = findViewById(R.id.registrar);
 
-         confirmar = findViewById(R.id.confirmar);
-         confirmar.setOnClickListener(this);
+        botonRegistrar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
-    }
+                openActivityRegistro();
 
-    @Override
-    public void onClick(View view) {
+            }
+        });
 
-        switch (view.getId()){
+        botonIngresar = findViewById(R.id.ingresar);
 
-            case R.id.confirmar:
+        botonIngresar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
-                textoUsuario = findViewById(R.id.editTextNombre);
-                String userReg = textoUsuario.getText().toString();
+                textoUsuario = findViewById(R.id.editUser);
+                String user = textoUsuario.getText().toString();
 
                 textoCont = findViewById(R.id.editTextPass);
-                String passReg = textoCont.getText().toString();
+                String pass = textoCont.getText().toString();
 
-                textApellido = findViewById(R.id.editApellido);
-                String apellidoReg = textApellido.getText().toString();
+                textApellido = findViewById(R.id.editCont);
+                String apellido = textApellido.getText().toString();
 
-                textoEmail = findViewById(R.id.editTextEmail);
-                String emailReg = textoEmail.getText().toString();
+                textoEmail = findViewById(R.id.editTextmail);
+                String email = textoEmail.getText().toString();
 
-                textoDNI = findViewById(R.id.editTextDoc);
-                String dniReg = textoDNI.getText().toString();
+                textoDNI = findViewById(R.id.editTextdni);
+                String dni = textoDNI.getText().toString();
 
-                validateInputs( userReg ,  apellidoReg ,  dniReg ,  emailReg ,  passReg);
+                validateInputs(user, apellido, dni, email, pass);
 
-                break;
+                //broadcastIntent();
+            }
+        });
 
-        }
-    }
-
-    public void broadcastIntent() {
-
-        registerReceiver(MyReceiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
     }
 
     private void validateInputs(String user , String apellido , String dni , String email , String pass){
@@ -122,7 +121,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
             } else
             {
-                createUserFromRegister(user, apellido, dni, email, pass);
+                createUserFromLogin(user, apellido, dni, email, pass);
 
             }
         }
@@ -137,6 +136,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         return matcher.matches();
     }
 
+    // validating password with retype password
     private boolean isValidPassword(String pass) {
         if (pass != null && pass.length() > 8) {
             return true;
@@ -144,65 +144,74 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         return false;
     }
 
-    private void createUserFromRegister (String user, String apellido, String dni, String email, String pass){
 
-            Registracion reg = new Registracion();
+    private void createUserFromLogin( String user ,String apellido ,String dni ,String email ,String pass){
 
-            reg.setName(user);
-            reg.setLastname(apellido);
-            reg.setDni(dni);
-            reg.setEmail(email);
-            reg.setPassword(pass);
-            reg.setCommission("6124");
-            reg.setEnv("DEV");
-            reg.setGroup("612");
+        final Registracion reg = new Registracion();
 
-            Log.d("Request enviado", reg.toString());
+        reg.setName(user);
+        reg.setLastname(apellido);
+        reg.setDni(dni);
+        reg.setEmail(email);
+        reg.setPassword(pass);
+        reg.setCommission("6124");
+        reg.setEnv("DEV");
+        reg.setGroup("612");
 
-            Call<RegistroResponse> call = jsonPlaceHolderApi.createUserFromRegister(reg);
+        Log.d("Request enviado", reg.toString());
 
-            call.enqueue(new Callback<RegistroResponse>() {
-                @Override
-                public void onResponse(Call<RegistroResponse> call, Response<RegistroResponse> response) {
+        Call<RegistroResponse> call = jsonPlaceHolderApi.createUserFromLogin(reg);
 
-                    if (!response.isSuccessful()) {
+        call.enqueue(new Callback<RegistroResponse>() {
+            @Override
+            public void onResponse(Call<RegistroResponse> call, Response<RegistroResponse> response) {
 
-                        Log.d("Response error", String.valueOf(response.code()));
-                        if (response.message().equals("Bad Request")) {
+                if (!response.isSuccessful()){
 
-                            Toast.makeText(getApplicationContext(), "Email o password no registrados", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                    else{
+                    Log.d("Response error", String.valueOf(response.code()));
+                    if (response.message().equals("Bad Request")) {
 
-                        Log.d("Response correcto", String.valueOf(response.code()));
-                        Log.d("Response body", response.body().getToken());
-                        Toast.makeText(getApplicationContext(), response.body().getToken(), Toast.LENGTH_SHORT).show();
-
-                        loginEvent(response.body());
-                        openActivityEvent();
+                        Toast.makeText(getApplicationContext(), "Email o password no registrados", Toast.LENGTH_SHORT).show();
                     }
                 }
+                else {
 
-                @Override
-                public void onFailure(Call<RegistroResponse> call, Throwable t) {
+                    Log.d("Response correcto", String.valueOf(response.code()));
+                    Log.d("Response body", response.body().toString());
 
-                    Toast.makeText(getApplicationContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), response.body().toString(), Toast.LENGTH_SHORT).show();
+
+                    loginEvent(response.body());
+                    openActivityEvent(reg);
 
                 }
-            });
-        }
+            }
+
+            @Override
+            public void onFailure(Call<RegistroResponse> call, Throwable t) {
+
+                Toast.makeText(getApplicationContext(),t.getMessage(),Toast.LENGTH_SHORT).show();
+
+            }
+        });
+    }
+
+    public void broadcastIntent() {
+
+        registerReceiver(MyReceiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
+    }
 
     public void openActivityRegistro(){
 
-        Intent intentRegistro = new Intent(this , MainActivity.class);
+        Intent intentRegistro = new Intent(this , LoginActivity.class);
         startActivity(intentRegistro);
         //finish();
     }
 
-    public void openActivityEvent(){
+    public void openActivityEvent(Registracion response){
 
         Intent intentEvent = new Intent(this , SensorActivity.class);
+        intentEvent.putExtra("mail" , response.getEmail());
         startActivity(intentEvent);
         finish();
     }
@@ -224,12 +233,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 if (!response.isSuccessful()){
 
                     Log.d("Response error", String.valueOf(response.code()));
+                    return ;
                 }
-
                 Log.d("Evento registrado", String.valueOf(response.code()));
                 Log.d("Evento response", response.body().toString());
                 Toast.makeText(getApplicationContext(), response.body().toString(),Toast.LENGTH_SHORT).show();
-
+                
             }
 
             @Override
@@ -253,4 +262,5 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         unregisterReceiver(MyReceiver);
         super.onDestroy();
     }
+
 }
