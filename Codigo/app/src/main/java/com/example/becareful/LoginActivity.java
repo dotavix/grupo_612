@@ -49,15 +49,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         broadcastIntent();
 
-/*        OkHttpClient okHttpClient = UnsafeOkHttpClient.getUnsafeOkHttpClient();
-
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://so-unlam.net.ar/api/api/")
-                .client(okHttpClient)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        jsonPlaceHolderApi = retrofit.create(JsonPlaceHolderApi.class);*/
         jsonPlaceHolderApi = ApiClient.getClient().create(JsonPlaceHolderApi.class);
 
          confirmar = findViewById(R.id.confirmar);

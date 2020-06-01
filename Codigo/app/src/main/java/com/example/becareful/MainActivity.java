@@ -51,14 +51,6 @@ public class MainActivity extends AppCompatActivity {
 
         broadcastIntent();
 
-/*        OkHttpClient okHttpClient = UnsafeOkHttpClient.getUnsafeOkHttpClient();
-
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://so-unlam.net.ar/api/api/")
-                .client(okHttpClient)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();*/
-
         jsonPlaceHolderApi = ApiClient.getClient().create(JsonPlaceHolderApi.class);
 
         botonRegistrar = findViewById(R.id.registrar);

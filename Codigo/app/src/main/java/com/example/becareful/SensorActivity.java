@@ -3,6 +3,7 @@ package com.example.becareful;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.hardware.Sensor;
@@ -38,6 +39,7 @@ public class SensorActivity extends AppCompatActivity {
     ProgressBar colorBarAcelero;
     Button guardarPrefers;
     Button mostrarPrefers;
+    Button verConsejos;
     private final static float ACC = 30;
     SharedPreferences sharedpreferences;
     public static final String mypreference = "Infor";
@@ -54,6 +56,8 @@ public class SensorActivity extends AppCompatActivity {
         guardarPrefers = findViewById(R.id.buttonMostrar);
 
         mostrarPrefers = findViewById(R.id.buttonShow);
+
+        verConsejos = findViewById(R.id.buttonPastInfo);
 
         mostrarSensoreInfo = findViewById(R.id.editSensor);
 
@@ -120,6 +124,14 @@ public class SensorActivity extends AppCompatActivity {
                 mostrarSensoreInfo.setText(mostrar);
                 mostrarSensoreInfo.setMovementMethod(new ScrollingMovementMethod());
 
+            }
+        });
+
+        verConsejos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                openActivityInfo();
             }
         });
 
@@ -208,6 +220,13 @@ public class SensorActivity extends AppCompatActivity {
         sensorManager.unregisterListener(sensorEventListener);
         sensorManagerAcelero.unregisterListener(sensorEventListenerAcelero);
 
+    }
+
+    public void openActivityInfo(){
+
+        Intent intentInfo = new Intent(this , InfoActivity.class);
+        startActivity(intentInfo);
+        //finish();
     }
 
     @Override

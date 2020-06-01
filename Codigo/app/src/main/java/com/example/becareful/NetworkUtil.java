@@ -12,14 +12,14 @@ public class NetworkUtil {
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
         if (activeNetwork != null) {
             if (activeNetwork.getType() == ConnectivityManager.TYPE_WIFI) {
-                status = "Wifi enabled";
+                status = "Conectado al wifi";
                 return status;
             } else if (activeNetwork.getType() == ConnectivityManager.TYPE_MOBILE) {
-                status = "Mobile data enabled";
+                status = "Conectado a datos moviles";
                 return status;
             }
         } else {
-            status = "No internet is available";
+            status = "No hay internet";
             return status;
         }
         return status;

@@ -14,7 +14,7 @@
         android:layout_height="52dp"
         android:background="#0C0C0C"
         android:padding="5dp"
-        android:text="Chequear Giroscopio"
+        android:text="Verificar dispositivos"
         android:textAlignment="center"
         android:textColor="#FCFBFB"
         android:textSize="24sp"
@@ -26,16 +26,17 @@
 
     <EditText
         android:id="@+id/editCantidad"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="93dp"
-        android:layout_marginEnd="105dp"
+        android:layout_width="166dp"
+        android:layout_height="47dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
         android:backgroundTint="@android:color/white"
         android:clickable="false"
         android:cursorVisible="false"
         android:editable="false"
         android:ems="10"
-        android:hint="Cantidad de giros"
+        android:hint="Giros"
         android:linksClickable="false"
         android:longClickable="false"
         android:textAlignment="center"
@@ -43,52 +44,34 @@
         android:textColorHint="#FDFCFC"
         android:textIsSelectable="false"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintEnd_toStartOf="@+id/editAcelero"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/textGiro" />
 
     <ProgressBar
         android:id="@+id/progressBar"
         style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="278dp"
-        android:layout_height="54dp"
-        android:layout_marginTop="12dp"
+        android:layout_width="146dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="24dp"
         android:background="#070707"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.503"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editCantidad" />
 
-    <TextView
-        android:id="@+id/textAcelero"
-        android:layout_width="416dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="16dp"
-        android:background="#0A0A0A"
-        android:padding="5dp"
-        android:text="Chequear Acelerometro"
-        android:textAlignment="center"
-        android:textColor="#FCFFFFFF"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.444"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/progressBar" />
-
     <EditText
         android:id="@+id/editAcelero"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="96dp"
+        android:layout_width="191dp"
+        android:layout_height="47dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
         android:backgroundTint="@android:color/white"
         android:clickable="false"
         android:cursorVisible="false"
         android:editable="false"
         android:ems="10"
-        android:hint="Cantidad de sacudidas"
+        android:hint="Sacudidas"
         android:linksClickable="false"
         android:longClickable="false"
         android:textAlignment="center"
@@ -97,19 +80,18 @@
         android:textIsSelectable="false"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.97"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textAcelero" />
+        app:layout_constraintStart_toEndOf="@+id/editCantidad"
+        app:layout_constraintTop_toBottomOf="@+id/textGiro" />
 
     <ProgressBar
         android:id="@+id/progressAcelero"
         style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="277dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="12dp"
+        android:layout_width="160dp"
+        android:layout_height="32dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="32dp"
         android:background="#FC0A0A0A"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editAcelero" />
 
     <Button
@@ -117,7 +99,7 @@
         android:layout_width="158dp"
         android:layout_height="61dp"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="36dp"
+        android:layout_marginTop="40dp"
         android:background="#FCFAFA"
         android:capitalize="none"
         android:text="Guardar"
@@ -129,7 +111,7 @@
         app:layout_constraintEnd_toStartOf="@+id/buttonShow"
         app:layout_constraintHorizontal_bias="0.191"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/progressAcelero" />
+        app:layout_constraintTop_toBottomOf="@+id/progressBar" />
 
     <Button
         android:id="@+id/buttonShow"
@@ -165,11 +147,27 @@
         android:textColorHighlight="#0A0A0A"
         android:textColorHint="#FA0A0A0A"
         android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/buttonPastInfo"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.754"
+        app:layout_constraintHorizontal_bias="0.4"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/buttonShow"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.071" />
+
+    <Button
+        android:id="@+id/buttonPastInfo"
+        android:layout_width="142dp"
+        android:layout_height="55dp"
+        android:layout_marginBottom="120dp"
+        android:background="#FFFFFF"
+        android:text="Ver Consejos"
+        android:textAlignment="center"
+        android:textAllCaps="false"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

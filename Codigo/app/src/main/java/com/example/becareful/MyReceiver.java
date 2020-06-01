@@ -9,9 +9,11 @@ public class MyReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
+
         String status = NetworkUtil.getConnectivityStatusString(context);
         if(status.isEmpty()) {
-            status="No Internet Connection";
+
+            status="No hay conexión";
         }
         Toast.makeText(context, status, Toast.LENGTH_LONG).show();
     }
