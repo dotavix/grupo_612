@@ -12,11 +12,11 @@
 
     <TextView
         android:id="@+id/textRegistrar"
-        android:layout_width="408dp"
-        android:layout_height="67dp"
+        android:layout_width="410dp"
+        android:layout_height="64dp"
         android:autoText="false"
         android:background="#F0090808"
-        android:padding="5dp"
+        android:padding="10dp"
         android:text="Bienvenido al login"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"

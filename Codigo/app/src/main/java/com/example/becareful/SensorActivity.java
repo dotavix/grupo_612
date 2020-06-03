@@ -37,9 +37,11 @@ public class SensorActivity extends AppCompatActivity {
     TextView mostrarSensoreInfo;
     ProgressBar colorBar ;
     ProgressBar colorBarAcelero;
+    ProgressBar colorBarPromedio;
     Button guardarPrefers;
     Button mostrarPrefers;
     Button verConsejos;
+    Button verPromedio;
     private final static float ACC = 30;
     SharedPreferences sharedpreferences;
     public static final String mypreference = "Infor";
@@ -64,6 +66,10 @@ public class SensorActivity extends AppCompatActivity {
         cantidad = findViewById(R.id.editCantidad);
 
         colorBar = findViewById(R.id.progressBar);
+
+        colorBarPromedio = findViewById(R.id.progressBarProm);
+
+        verPromedio = findViewById(R.id.buttonPromedio);
 
         Bundle extras = getIntent().getExtras();
 
@@ -172,11 +178,6 @@ public class SensorActivity extends AppCompatActivity {
             @Override
             public void onSensorChanged(SensorEvent sensorEvent) {
 
-                //float x = sensorEvent.values[0];
-                //float y = sensorEvent.values[1];
-                //float[] values = sensorEvent.values;
-
-                //if ((Math.abs(values[0]) > ACC || Math.abs(values[1]) > ACC || Math.abs(values[2]) > ACC)){
                 if ( -sensorEvent.values[1] > ACC && -sensorEvent.values[2] > ACC){
 
                     acelero++;
@@ -203,8 +204,27 @@ public class SensorActivity extends AppCompatActivity {
             public void onAccuracyChanged(Sensor sensor, int i) {
 
             }
+
         };
 
+        verPromedio.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if ((acelero >=1 && acelero < 3) || (giro >=1 && giro < 3)){
+
+                    colorBarPromedio.setBackgroundColor(Color.GREEN);
+
+                }else if ( (acelero >= 3 && acelero <= 5) || (giro >=3 && giro < 5)){
+
+                    colorBarPromedio.setBackgroundColor(Color.YELLOW);
+
+                }else if ( acelero > 5 || giro > 5 ){
+
+                    colorBarPromedio.setBackgroundColor(Color.RED);
+                }
+            }
+        });
 
         start();
     }

@@ -13,7 +13,7 @@
         android:layout_width="410dp"
         android:layout_height="52dp"
         android:background="#0C0C0C"
-        android:padding="5dp"
+        android:padding="10dp"
         android:text="Verificar dispositivos"
         android:textAlignment="center"
         android:textColor="#FCFBFB"
@@ -100,6 +100,7 @@
         android:layout_height="61dp"
         android:layout_marginStart="32dp"
         android:layout_marginTop="40dp"
+        android:layout_marginEnd="24dp"
         android:background="#FCFAFA"
         android:capitalize="none"
         android:text="Guardar"
@@ -111,14 +112,14 @@
         app:layout_constraintEnd_toStartOf="@+id/buttonShow"
         app:layout_constraintHorizontal_bias="0.191"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/progressBar" />
+        app:layout_constraintTop_toBottomOf="@+id/progressBarProm" />
 
     <Button
         android:id="@+id/buttonShow"
         android:layout_width="159dp"
         android:layout_height="60dp"
-        android:layout_marginStart="25dp"
-        android:layout_marginTop="36dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="40dp"
         android:layout_marginEnd="32dp"
         android:background="#FFFFFF"
         android:text="Mostrar"
@@ -128,15 +129,15 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/buttonMostrar"
-        app:layout_constraintTop_toBottomOf="@+id/progressAcelero" />
+        app:layout_constraintTop_toBottomOf="@+id/progressBarProm" />
 
     <TextView
         android:id="@+id/editSensor"
         android:layout_width="358dp"
         android:layout_height="225dp"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="24dp"
         android:layout_marginEnd="24dp"
+        android:layout_marginBottom="16dp"
         android:autoText="false"
         android:background="#FFFFFF"
         android:cursorVisible="false"
@@ -149,16 +150,14 @@
         android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@+id/buttonPastInfo"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.4"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonShow"
-        app:layout_constraintVertical_bias="0.071" />
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/buttonPastInfo"
         android:layout_width="142dp"
         android:layout_height="55dp"
-        android:layout_marginBottom="120dp"
+        android:layout_marginBottom="24dp"
         android:background="#FFFFFF"
         android:text="Ver Consejos"
         android:textAlignment="center"
@@ -169,5 +168,32 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <ProgressBar
+        android:id="@+id/progressBarProm"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="241dp"
+        android:layout_height="34dp"
+        android:layout_marginTop="16dp"
+        android:background="#070707"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonPromedio" />
+
+    <Button
+        android:id="@+id/buttonPromedio"
+        android:layout_width="177dp"
+        android:layout_height="56dp"
+        android:layout_marginTop="52dp"
+        android:background="#FFFFFF"
+        android:text="Mira tu promedio"
+        android:textAlignment="center"
+        android:textAllCaps="false"
+        android:textColorHighlight="#FFFFFF"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/progressAcelero" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

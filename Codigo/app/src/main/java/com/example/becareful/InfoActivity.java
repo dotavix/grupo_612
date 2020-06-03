@@ -10,8 +10,6 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-
-import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
@@ -19,9 +17,10 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -30,16 +29,15 @@ import org.json.JSONObject;
 
 public class InfoActivity extends AppCompatActivity {
 
-    EditText mEditText;
+    TextView mEditText;
     Button mButton;
-    TextView mTextView;
-    ProgressBar mProgressBar;
-    Context context;
 
     private static final String TAG = "searchApp";
-    static String result = null;
+    static String result = "";
     Integer responseCode = null;
     String responseMessage = "";
+    RatingBar ratingbar;
+    Button buttonFinal;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,38 +45,23 @@ public class InfoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_info);
 
         Log.d(TAG, "**** APP START ****");
-        context = getApplicationContext();
 
-        // GUI init
         mEditText = findViewById(R.id.editInfo);
         mButton = findViewById(R.id.botonInfo);
-        //mTextView = findViewById(R.id.textView1);
-        //mProgressBar = findViewById(R.id.pb_loading_indicator);
+        ratingbar = findViewById(R.id.ratingBar);
+        buttonFinal = findViewById(R.id.buttonFin);
 
-        // button onClick
         mButton.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
 
-                //final String searchString = mEditText.getText().toString();
-                //String txt = "Searching for : " + searchString;
-                //Log.d(TAG, txt);
-                //mTextView.setText(txt);
-
-                // hide keyboard
-                //InputMethodManager inputManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                //inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-
                 final String searchString = "xataka";
 
-                // remove spaces
                 String searchStringNoSpaces = searchString.replace(" ", "+");
 
                 // Your Google API key
-                // TODO replace with your value
                 String key= "AIzaSyC4S7x5LBNelDdyG8ZY-MKS0O-y9q4RSKw";
 
                 // Your Google Search Engine ID
-                // TODO replace with your value
                 String cx = "012987211185105791696:kk3yfkffllx";
 
                 String urlString = "https://www.googleapis.com/customsearch/v1?q=" + searchStringNoSpaces + "&key=" + key + "&cx=" + cx + "&alt=json";
@@ -100,6 +83,16 @@ public class InfoActivity extends AppCompatActivity {
             }
         });
 
+        buttonFinal.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                String rating=String.valueOf(ratingbar.getRating());
+                Toast.makeText(getApplicationContext(), "Gracias por tu puntación de " + rating, Toast.LENGTH_LONG).show();
+
+            }
+        });
+
     }
 
     private class GoogleSearchAsyncTask extends AsyncTask<URL, Integer, String> {
@@ -107,8 +100,6 @@ public class InfoActivity extends AppCompatActivity {
         protected void onPreExecute() {
 
             Log.d(TAG, "AsyncTask - onPreExecute");
-            // show mProgressBar
-            //mProgressBar.setVisibility(View.VISIBLE);
 
         }
 
@@ -119,7 +110,6 @@ public class InfoActivity extends AppCompatActivity {
             URL url = urls[0];
             Log.d(TAG, "AsyncTask - doInBackground, url=" + url);
 
-            // Http connection
             HttpURLConnection conn = null;
             try {
                 conn = (HttpURLConnection) url.openConnection();
@@ -142,42 +132,22 @@ public class InfoActivity extends AppCompatActivity {
 
                 if (responseCode != null && responseCode == 200) {
 
-                    // response OK
 
                     BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-                    //StringBuilder sb = new StringBuilder();
                     String line;
 
                     while ((line = rd.readLine()) != null) {
 
-                        //sb.append(line + "\n");
-                        Log.d(TAG, "STRING BODY=" + line);
+                              result+=line;
+
                     }
                     rd.close();
 
                     conn.disconnect();
 
-/*                    result = sb.toString();
-
-                    Log.d(TAG, "result=" + result);
-
-                    JSONObject jObj = null;
-
-                        jObj = new JSONObject(result);
-
-                    //String extract = recurseKeys(jObj , "displayLink");
-                    Object extract = myfunction(jObj , "displayLink");
-
-                    return extract.toString();*/
-                    JSONObject jObj = new JSONObject(line);
-
-                    Object extract = myfunction(jObj , "displayLink");
-
-                    return extract.toString();
+                    return result;
 
                 } else {
-
-                    // response problem
 
                     String errorMsg = "Http ERROR response " + responseMessage + "\n" + "Are you online ? " + "\n" + "Make sure to replace in code your own Google API key and Search Engine ID";
                     Log.e(TAG, errorMsg);
@@ -188,8 +158,6 @@ public class InfoActivity extends AppCompatActivity {
             } catch (IOException e) {
                 Log.e(TAG, "Http Response ERROR " + e.toString());
 
-            } catch (JSONException e) {
-                e.printStackTrace();
             }
 
             return null;
@@ -205,14 +173,34 @@ public class InfoActivity extends AppCompatActivity {
 
             Log.d(TAG, "AsyncTask - onPostExecute, result=" + result);
 
-            // hide mProgressBar
-            //mProgressBar.setVisibility(View.GONE);
+            JSONObject jObj = null;
+            try {
+                jObj = new JSONObject(result);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
 
-            // make TextView scrollable
+            String dato = "";
+
+            if (jObj.has("items")) {
+
+                JSONArray nuevo = jObj.optJSONArray("items");
+                try {
+
+                    JSONObject info = null;
+                    for (int i= 0 ; i< nuevo.length() ;i ++) {
+
+                        info = nuevo.getJSONObject(i);
+
+                        dato = dato + "Mira este link: " + info.optString("link") + "\n";
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            mEditText.setText(dato);
             mEditText.setMovementMethod(new ScrollingMovementMethod());
-            // show result
-            mEditText.setText(result);
-
         }
     }
     public static String recurseKeys(JSONObject jObj, String findKey) throws JSONException {
