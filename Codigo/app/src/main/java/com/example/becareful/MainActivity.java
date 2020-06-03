@@ -137,9 +137,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private void createUserFromLogin( String user ,String apellido ,String dni ,String email ,String pass){
+    private void createUserFromLogin(String user , String apellido , String dni , final String email , String pass){
 
-        final Registracion reg = new Registracion();
+        final RegisterRequest reg = new RegisterRequest();
 
         reg.setName(user);
         reg.setLastname(apellido);
@@ -152,11 +152,11 @@ public class MainActivity extends AppCompatActivity {
 
         Log.d("Request enviado", reg.toString());
 
-        Call<RegistroResponse> call = jsonPlaceHolderApi.createUserFromLogin(reg);
+        Call<RegisterResponse> call = jsonPlaceHolderApi.createUserFromLogin(reg);
 
-        call.enqueue(new Callback<RegistroResponse>() {
+        call.enqueue(new Callback<RegisterResponse>() {
             @Override
-            public void onResponse(Call<RegistroResponse> call, Response<RegistroResponse> response) {
+            public void onResponse(Call<RegisterResponse> call, Response<RegisterResponse> response) {
 
                 if (!response.isSuccessful()){
 
@@ -174,13 +174,13 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), response.body().toString(), Toast.LENGTH_SHORT).show();
 
                     loginEvent(response.body());
-                    openActivityEvent(reg);
+                    openActivityEvent(email , response.body().getToken());
 
                 }
             }
 
             @Override
-            public void onFailure(Call<RegistroResponse> call, Throwable t) {
+            public void onFailure(Call<RegisterResponse> call, Throwable t) {
 
                 Toast.makeText(getApplicationContext(),t.getMessage(),Toast.LENGTH_SHORT).show();
 
@@ -195,20 +195,21 @@ public class MainActivity extends AppCompatActivity {
 
     public void openActivityRegistro(){
 
-        Intent intentRegistro = new Intent(this , LoginActivity.class);
+        Intent intentRegistro = new Intent(this , RegisterActivity.class);
         startActivity(intentRegistro);
         //finish();
     }
 
-    public void openActivityEvent(Registracion response){
+    public void openActivityEvent(String email , String token){
 
         Intent intentEvent = new Intent(this , SensorActivity.class);
-        intentEvent.putExtra("mail" , response.getEmail());
+        intentEvent.putExtra("mail" , email);
+        intentEvent.putExtra("token" , token);
         startActivity(intentEvent);
         finish();
     }
 
-    public void loginEvent(RegistroResponse response){
+    public void loginEvent(RegisterResponse response){
 
         EventRequest eventoLogin = new EventRequest();
         eventoLogin.setState("ACTIVO");
@@ -227,8 +228,8 @@ public class MainActivity extends AppCompatActivity {
                     Log.d("Response error", String.valueOf(response.code()));
                     return ;
                 }
-                Log.d("Evento registrado", String.valueOf(response.code()));
-                Log.d("Evento response", response.body().toString());
+                Log.d("Evento login", String.valueOf(response.code()));
+                Log.d("Evento login response", response.body().toString());
                 Toast.makeText(getApplicationContext(), response.body().toString(),Toast.LENGTH_SHORT).show();
                 
             }

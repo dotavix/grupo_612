@@ -1,6 +1,6 @@
 package com.example.becareful;
 
-public class Registracion {
+public class RegisterRequest {
 
     private String name;
 
@@ -18,7 +18,7 @@ public class Registracion {
 
     private String group;
 
-    public Registracion() {
+    public RegisterRequest() {
 
     }
 
@@ -26,7 +26,7 @@ public class Registracion {
         return name;
     }
 
-    public Registracion(String name, String lastname, String dni, String password, String email, String env, String commission, String group) {
+    public RegisterRequest(String name, String lastname, String dni, String password, String email, String env, String commission, String group) {
         this.name = name;
         this.lastname = lastname;
         this.dni = dni;
@@ -99,7 +99,7 @@ public class Registracion {
 
     @Override
     public String toString() {
-        return "Registracion{" +
+        return "RegisterRequest{" +
                 "name='" + name + '\'' +
                 ", lastname='" + lastname + '\'' +
                 ", dni='" + dni + '\'' +

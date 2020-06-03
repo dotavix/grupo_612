@@ -1,6 +1,6 @@
 package com.example.becareful;
 
-public class RegistroResponse {
+public class RegisterResponse {
 
     private String env ;
 
@@ -10,7 +10,7 @@ public class RegistroResponse {
 
     private String msg;
 
-    public RegistroResponse(String env, String token, String state, String msg) {
+    public RegisterResponse(String env, String token, String state, String msg) {
         this.env = env;
         this.token = token;
         this.state = state;
@@ -51,7 +51,7 @@ public class RegistroResponse {
 
     @Override
     public String toString() {
-        return "RegistroResponse{" +
+        return "RegisterResponse{" +
                 "env='" + env + '\'' +
                 ", token='" + token + '\'' +
                 ", state='" + state + '\'' +

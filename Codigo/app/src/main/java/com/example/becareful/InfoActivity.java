@@ -12,6 +12,7 @@ import java.util.Iterator;
 import java.util.Map;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.method.LinkMovementMethod;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
@@ -54,7 +55,7 @@ public class InfoActivity extends AppCompatActivity {
         mButton.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
 
-                final String searchString = "xataka";
+                final String searchString = "cuidados a mi celular";
 
                 String searchStringNoSpaces = searchString.replace(" ", "+");
 
@@ -187,12 +188,14 @@ public class InfoActivity extends AppCompatActivity {
                 JSONArray nuevo = jObj.optJSONArray("items");
                 try {
 
-                    JSONObject info = null;
+                    JSONObject info;
+
                     for (int i= 0 ; i< nuevo.length() ;i ++) {
 
                         info = nuevo.getJSONObject(i);
 
-                        dato = dato + "Mira este link: " + info.optString("link") + "\n";
+                        dato = dato + "Recomendado: " + info.optString("link") + "\n" +"\n" ;
+
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -200,77 +203,8 @@ public class InfoActivity extends AppCompatActivity {
             }
 
             mEditText.setText(dato);
-            mEditText.setMovementMethod(new ScrollingMovementMethod());
+            mEditText.setMovementMethod(LinkMovementMethod.getInstance());
         }
-    }
-    public static String recurseKeys(JSONObject jObj, String findKey) throws JSONException {
-        String finalValue = "";
-        if (jObj == null) {
-            return "";
-        }
-
-        Iterator<String> keyItr = jObj.keys();
-        Map<String, String> map = new HashMap<>();
-
-        while(keyItr.hasNext()) {
-            String key = keyItr.next();
-            map.put(key, jObj.getString(key));
-        }
-
-        for (Map.Entry<String, String> e : (map).entrySet()) {
-            String key = e.getKey();
-            if (key.equalsIgnoreCase(findKey)) {
-                return jObj.getString(key);
-            }
-
-            // read value
-            Object value = jObj.get(key);
-
-            if (value instanceof JSONObject) {
-                finalValue = recurseKeys((JSONObject)value, findKey);
-            }
-        }
-
-        // key is not found
-        return finalValue;
-    }
-
-    public static Object myfunction(JSONObject x,String y) throws JSONException
-    {
-        Object finalresult = null;
-
-        JSONArray keys =  x.names();
-        for(int i=0;i<keys.length();i++)
-        {
-            if(finalresult!=null)
-            {
-                return finalresult;                     //To kill the recursion
-            }
-
-            String current_key = keys.get(i).toString();
-
-            if(current_key.equals(y))
-            {
-                finalresult=x.get(current_key);
-                return finalresult;
-            }
-
-            if(x.get(current_key).getClass().getName().equals("org.json.JSONObject"))
-            {
-                myfunction((JSONObject) x.get(current_key),y);
-            }
-            else if(x.get(current_key).getClass().getName().equals("org.json.JSONArray"))
-            {
-                for(int j=0;j<((JSONArray) x.get(current_key)).length();j++)
-                {
-                    if(((JSONArray) x.get(current_key)).get(j).getClass().getName().equals("org.json.JSONObject"))
-                    {
-                        myfunction((JSONObject)((JSONArray) x.get(current_key)).get(j),y);
-                    }
-                }
-            }
-        }
-        return null;
     }
 }
 

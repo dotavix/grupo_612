@@ -22,6 +22,10 @@ import android.widget.Toast;
 
 import java.util.Map;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class SensorActivity extends AppCompatActivity {
 
     int giro = 0;
@@ -47,7 +51,9 @@ public class SensorActivity extends AppCompatActivity {
     public static final String mypreference = "Infor";
     public static final String name = "userKey";
     String emailSearch;
+    String token;
     int incremento = 0;
+    private JsonPlaceHolderApi jsonPlaceHolderApi;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,6 +91,8 @@ public class SensorActivity extends AppCompatActivity {
 
         sensorAcelera = sensorManagerAcelero.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 
+        jsonPlaceHolderApi = ApiClient.getClient().create(JsonPlaceHolderApi.class);
+
         if (sensorGiroscopo == null && sensorAcelera == null){
 
             finish();
@@ -95,6 +103,7 @@ public class SensorActivity extends AppCompatActivity {
         sharedpreferences = getSharedPreferences(mypreference,
                 Context.MODE_PRIVATE);
 
+        token = extras.getString("token");
 
         guardarPrefers.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -106,6 +115,7 @@ public class SensorActivity extends AppCompatActivity {
 
                 Toast.makeText(getApplicationContext(), "Datos Guardados" , Toast.LENGTH_SHORT).show();
                 incremento++;
+                loginEvent(token);
             }
         });
 
@@ -124,7 +134,7 @@ public class SensorActivity extends AppCompatActivity {
 
                         String[] nombre =entry.getValue().toString().split(" ");
                         Log.d("Clave email", entry.getKey() + "Cantidad" + entry.getValue().toString());
-                        mostrar = mostrar + "Usuario: " + nombre[0] + "\n" + "Cantidad de giros: " + nombre[1] + "\n" + "Cantidad aceleradas: " + nombre[2] + "\n";
+                        mostrar = mostrar + "Usuario: " + nombre[0] + "\n" + "Cantidad de giros: " + nombre[1] + "\n" + "Cantidad aceleradas: " + nombre[2] + "\n" + "\n";
                     }
                 }
                 mostrarSensoreInfo.setText(mostrar);
@@ -211,15 +221,17 @@ public class SensorActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                if ((acelero >=1 && acelero < 3) || (giro >=1 && giro < 3)){
+                int promedio = Math.round((acelero + giro)/2);
+
+                if (promedio >=1 && promedio <= 2){
 
                     colorBarPromedio.setBackgroundColor(Color.GREEN);
 
-                }else if ( (acelero >= 3 && acelero <= 5) || (giro >=3 && giro < 5)){
+                }else if ( promedio == 3 ){
 
                     colorBarPromedio.setBackgroundColor(Color.YELLOW);
 
-                }else if ( acelero > 5 || giro > 5 ){
+                }else if ( promedio > 3){
 
                     colorBarPromedio.setBackgroundColor(Color.RED);
                 }
@@ -248,6 +260,40 @@ public class SensorActivity extends AppCompatActivity {
         startActivity(intentInfo);
         //finish();
     }
+
+    public void loginEvent(String token){
+
+        EventRequest eventoLogin = new EventRequest();
+        eventoLogin.setState("ACTIVO");
+        eventoLogin.setEnv("DEV");
+        eventoLogin.setType_events("Input sensores");
+        eventoLogin.setDescription("Evento que obtuvo datos de los sensores");
+
+        Call<EventResponse> call = jsonPlaceHolderApi.createEvent(token ,eventoLogin);
+
+        call.enqueue(new Callback<EventResponse>() {
+            @Override
+            public void onResponse(Call<EventResponse> call, Response<EventResponse> response) {
+
+                if (!response.isSuccessful()){
+
+                    Log.d("Response error", String.valueOf(response.code()));
+                    return ;
+                }
+                Log.d("Evento sensor", String.valueOf(response.code()));
+                Log.d("Evento sensor response", response.body().toString());
+                Toast.makeText(getApplicationContext(), response.body().toString(),Toast.LENGTH_SHORT).show();
+
+            }
+
+            @Override
+            public void onFailure(Call<EventResponse> call, Throwable t) {
+
+                Toast.makeText(getApplicationContext(),t.getMessage(),Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
 
     @Override
     protected void onPause() {

@@ -19,7 +19,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class LoginActivity extends AppCompatActivity implements View.OnClickListener{
+public class RegisterActivity extends AppCompatActivity implements View.OnClickListener{
 
     private JsonPlaceHolderApi jsonPlaceHolderApi;
 
@@ -132,9 +132,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         return false;
     }
 
-    private void createUserFromRegister (String user, String apellido, String dni, String email, String pass){
+    private void createUserFromRegister (String user, String apellido, String dni, final String email, String pass){
 
-            final Registracion reg = new Registracion();
+            final RegisterRequest reg = new RegisterRequest();
 
             reg.setName(user);
             reg.setLastname(apellido);
@@ -147,11 +147,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
             Log.d("Request enviado", reg.toString());
 
-            Call<RegistroResponse> call = jsonPlaceHolderApi.createUserFromRegister(reg);
+            Call<RegisterResponse> call = jsonPlaceHolderApi.createUserFromRegister(reg);
 
-            call.enqueue(new Callback<RegistroResponse>() {
+            call.enqueue(new Callback<RegisterResponse>() {
                 @Override
-                public void onResponse(Call<RegistroResponse> call, Response<RegistroResponse> response) {
+                public void onResponse(Call<RegisterResponse> call, Response<RegisterResponse> response) {
 
                     if (!response.isSuccessful()) {
 
@@ -168,12 +168,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         Toast.makeText(getApplicationContext(), response.body().getToken(), Toast.LENGTH_SHORT).show();
 
                         loginEvent(response.body());
-                        openActivityEvent(reg);
+                        openActivityEvent(email , response.body().getToken());
                     }
                 }
 
                 @Override
-                public void onFailure(Call<RegistroResponse> call, Throwable t) {
+                public void onFailure(Call<RegisterResponse> call, Throwable t) {
 
                     Toast.makeText(getApplicationContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
 
@@ -181,22 +181,25 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             });
         }
 
-/*    public void openActivityRegistro(){
 
-        Intent intentRegistro = new Intent(this , MainActivity.class);
-        startActivity(intentRegistro);
-        //finish();
-    }*/
-
-    public void openActivityEvent(Registracion response){
+/*    public void openActivityEvent(RegisterRequest response){
 
         Intent intentEvent = new Intent(this , SensorActivity.class);
         intentEvent.putExtra("mail" , response.getEmail());
         startActivity(intentEvent);
         finish();
+    }*/
+
+    public void openActivityEvent(String email , String token){
+
+        Intent intentEvent = new Intent(this , SensorActivity.class);
+        intentEvent.putExtra("mail" , email);
+        intentEvent.putExtra("token" , token);
+        startActivity(intentEvent);
+        finish();
     }
 
-    public void loginEvent(RegistroResponse response){
+    public void loginEvent(RegisterResponse response){
 
         EventRequest eventoLogin = new EventRequest();
         eventoLogin.setState("ACTIVO");
@@ -215,8 +218,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     Log.d("Response error", String.valueOf(response.code()));
                 }
 
-                Log.d("Evento registrado", String.valueOf(response.code()));
-                Log.d("Evento response", response.body().toString());
+                Log.d("Evento registracion", String.valueOf(response.code()));
+                Log.d("Evento reg response", response.body().toString());
                 Toast.makeText(getApplicationContext(), response.body().toString(),Toast.LENGTH_SHORT).show();
 
             }
