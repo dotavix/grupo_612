@@ -30,15 +30,12 @@ public class MainActivity extends AppCompatActivity {
 
     Button botonIngresar;
 
-    EditText textoUsuario;
 
     EditText textoCont;
 
-    EditText textApellido;
-
     EditText textoEmail;
 
-    EditText textoDNI;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,31 +66,23 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                textoUsuario = findViewById(R.id.editUser);
-                String user = textoUsuario.getText().toString();
-
                 textoCont = findViewById(R.id.editTextPass);
                 String pass = textoCont.getText().toString();
 
-                textApellido = findViewById(R.id.editCont);
-                String apellido = textApellido.getText().toString();
 
                 textoEmail = findViewById(R.id.editTextmail);
                 String email = textoEmail.getText().toString();
 
-                textoDNI = findViewById(R.id.editTextdni);
-                String dni = textoDNI.getText().toString();
-
-                validateInputs(user, apellido, dni, email, pass);
+                validateInputs(email, pass);
 
             }
         });
 
     }
 
-    private void validateInputs(String user , String apellido , String dni , String email , String pass){
+    private void validateInputs(String email , String pass){
 
-        if (user.length() ==0 || pass.length() == 0 || apellido.length() == 0 || email.length() == 0 || dni.length() == 0){
+        if ( pass.length() == 0 || email.length() == 0){
 
             Toast.makeText(this,"No ha completado los campos",Toast.LENGTH_SHORT).show();
 
@@ -111,7 +100,7 @@ public class MainActivity extends AppCompatActivity {
 
             } else
             {
-                createUserFromLogin(user, apellido, dni, email, pass);
+                createUserFromLogin(email, pass);
 
             }
         }
@@ -127,20 +116,20 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private boolean isValidPassword(String pass) {
-        if (pass != null && pass.length() > 8) {
+        if (pass != null && pass.length() >= 8) {
             return true;
         }
         return false;
     }
 
 
-    private void createUserFromLogin(String user , String apellido , String dni , final String email , String pass){
+    private void createUserFromLogin(final String email , String pass){
 
         final RegisterRequest reg = new RegisterRequest();
 
-        reg.setName(user);
-        reg.setLastname(apellido);
-        reg.setDni(dni);
+        reg.setName("user");
+        reg.setLastname("apellido");
+        reg.setDni("dni");
         reg.setEmail(email);
         reg.setPassword(pass);
         reg.setCommission("6124");

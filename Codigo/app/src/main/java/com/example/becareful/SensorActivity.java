@@ -48,8 +48,7 @@ public class SensorActivity extends AppCompatActivity {
     Button verPromedio;
     private final static float ACC = 30;
     SharedPreferences sharedpreferences;
-    public static final String mypreference = "Infor";
-    public static final String name = "userKey";
+    public static final String mypreferences = "New1";
     String emailSearch;
     String token;
     int incremento = 0;
@@ -98,24 +97,24 @@ public class SensorActivity extends AppCompatActivity {
             finish();
         }
 
-        emailSearch = extras.getString("mail");
-
-        sharedpreferences = getSharedPreferences(mypreference,
+        sharedpreferences = getSharedPreferences(mypreferences,
                 Context.MODE_PRIVATE);
 
         token = extras.getString("token");
+        emailSearch = extras.getString("mail");
 
         guardarPrefers.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
+                String sensado = "Giros " + giro + " " + "Sacudidas " + acelero;
                 SharedPreferences.Editor editor = sharedpreferences.edit();
-                editor.putString(name + incremento, emailSearch + " " + giro + " " + acelero);
+                editor.putString(token + incremento, emailSearch + " " + giro + " " + acelero);
                 editor.apply();
 
                 Toast.makeText(getApplicationContext(), "Datos Guardados" , Toast.LENGTH_SHORT).show();
                 incremento++;
-                loginEvent(token);
+                loginEvent(token , sensado);
             }
         });
 
@@ -124,21 +123,27 @@ public class SensorActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
+                String mostrar = "";
                 Map<String,?> keys = sharedpreferences.getAll();
 
-                String mostrar= "";
+                    for (Map.Entry<String, ?> entry : keys.entrySet()) {
 
-                for(Map.Entry<String,?> entry : keys.entrySet()){
+                        if (entry.getValue().toString().contains(emailSearch)) {
 
-                    if (entry.getValue().toString().contains(emailSearch)) {
-
-                        String[] nombre =entry.getValue().toString().split(" ");
-                        Log.d("Clave email", entry.getKey() + "Cantidad" + entry.getValue().toString());
-                        mostrar = mostrar + "Usuario: " + nombre[0] + "\n" + "Cantidad de giros: " + nombre[1] + "\n" + "Cantidad aceleradas: " + nombre[2] + "\n" + "\n";
+                            String[] nombre = entry.getValue().toString().split(" ");
+                            Log.d("Clave email", entry.getKey() + "Cantidad" + entry.getValue().toString());
+                            mostrar = mostrar + "Usuario: " + nombre[0] + "\n" + "Cantidad de giros: " + nombre[1] + "\n" + "Cantidad aceleradas: " + nombre[2] + "\n" + "\n";
+                        }
                     }
-                }
-                mostrarSensoreInfo.setText(mostrar);
-                mostrarSensoreInfo.setMovementMethod(new ScrollingMovementMethod());
+                    if (mostrar.isEmpty()){
+
+                        Toast.makeText(getApplicationContext(),"Historial vacio.",Toast.LENGTH_SHORT).show();
+
+                    }else {
+
+                        mostrarSensoreInfo.setText(mostrar);
+                        mostrarSensoreInfo.setMovementMethod(new ScrollingMovementMethod());
+                    }
 
             }
         });
@@ -261,12 +266,12 @@ public class SensorActivity extends AppCompatActivity {
         //finish();
     }
 
-    public void loginEvent(String token){
+    public void loginEvent(String token , String sensado){
 
         EventRequest eventoLogin = new EventRequest();
         eventoLogin.setState("ACTIVO");
         eventoLogin.setEnv("DEV");
-        eventoLogin.setType_events("Input sensores");
+        eventoLogin.setType_events(sensado);
         eventoLogin.setDescription("Evento que obtuvo datos de los sensores");
 
         Call<EventResponse> call = jsonPlaceHolderApi.createEvent(token ,eventoLogin);

@@ -117,7 +117,7 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private boolean isValidPassword(String pass) {
-        if (pass != null && pass.length() > 8) {
+        if (pass != null && pass.length() >= 8) {
             return true;
         }
         return false;
