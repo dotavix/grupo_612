@@ -7,22 +7,16 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.method.LinkMovementMethod;
-import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -32,7 +26,6 @@ public class InfoActivity extends AppCompatActivity {
 
     TextView mEditText;
     Button mButton;
-
     private static final String TAG = "searchApp";
     static String result = "";
     Integer responseCode = null;
@@ -205,6 +198,23 @@ public class InfoActivity extends AppCompatActivity {
             mEditText.setText(dato);
             mEditText.setMovementMethod(LinkMovementMethod.getInstance());
         }
+    }
+    @Override
+    protected void onPause() {
+
+        super.onPause();
+    }
+
+    @Override
+    protected void onResume() {
+
+        super.onResume();
+    }
+
+    @Override
+    protected void onDestroy(){
+
+        super.onDestroy();
     }
 }
 

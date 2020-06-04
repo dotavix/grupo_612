@@ -223,15 +223,15 @@ public class SensorActivity extends AppCompatActivity {
 
                 int promedio = Math.round((acelero + giro)/2);
 
-                if (promedio >=1 && promedio <= 2){
+                if (promedio == 1){
 
                     colorBarPromedio.setBackgroundColor(Color.GREEN);
 
-                }else if ( promedio == 3 ){
+                }else if ( promedio == 2 ){
 
                     colorBarPromedio.setBackgroundColor(Color.YELLOW);
 
-                }else if ( promedio > 3){
+                }else if ( promedio >= 3){
 
                     colorBarPromedio.setBackgroundColor(Color.RED);
                 }
@@ -289,6 +289,7 @@ public class SensorActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<EventResponse> call, Throwable t) {
 
+                Log.d("Sensor error", t.getMessage());
                 Toast.makeText(getApplicationContext(),t.getMessage(),Toast.LENGTH_SHORT).show();
             }
         });
@@ -307,5 +308,11 @@ public class SensorActivity extends AppCompatActivity {
 
         start();
         super.onResume();
+    }
+
+    @Override
+    protected void onDestroy(){
+
+        super.onDestroy();
     }
 }

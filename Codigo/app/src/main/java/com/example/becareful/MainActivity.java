@@ -40,7 +40,6 @@ public class MainActivity extends AppCompatActivity {
 
     EditText textoDNI;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -87,7 +86,6 @@ public class MainActivity extends AppCompatActivity {
 
                 validateInputs(user, apellido, dni, email, pass);
 
-                //broadcastIntent();
             }
         });
 
@@ -128,7 +126,6 @@ public class MainActivity extends AppCompatActivity {
         return matcher.matches();
     }
 
-    // validating password with retype password
     private boolean isValidPassword(String pass) {
         if (pass != null && pass.length() > 8) {
             return true;
@@ -197,7 +194,7 @@ public class MainActivity extends AppCompatActivity {
 
         Intent intentRegistro = new Intent(this , RegisterActivity.class);
         startActivity(intentRegistro);
-        //finish();
+        finish();
     }
 
     public void openActivityEvent(String email , String token){

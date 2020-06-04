@@ -19,7 +19,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class RegisterActivity extends AppCompatActivity implements View.OnClickListener{
+public class RegisterActivity extends AppCompatActivity {
 
     private JsonPlaceHolderApi jsonPlaceHolderApi;
 
@@ -34,8 +34,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     EditText textoEmail;
 
     EditText textoDNI;
-
-    Button cancelar;
 
     Button confirmar;
 
@@ -52,37 +50,30 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         jsonPlaceHolderApi = ApiClient.getClient().create(JsonPlaceHolderApi.class);
 
          confirmar = findViewById(R.id.confirmar);
-         confirmar.setOnClickListener(this);
+         confirmar.setOnClickListener(new View.OnClickListener() {
+             @Override
+             public void onClick(View view) {
 
-    }
+                 textoUsuario = findViewById(R.id.editTextNombre);
+                 String userReg = textoUsuario.getText().toString();
 
-    @Override
-    public void onClick(View view) {
+                 textoCont = findViewById(R.id.editTextPass);
+                 String passReg = textoCont.getText().toString();
 
-        switch (view.getId()){
+                 textApellido = findViewById(R.id.editApellido);
+                 String apellidoReg = textApellido.getText().toString();
 
-            case R.id.confirmar:
+                 textoEmail = findViewById(R.id.editTextEmail);
+                 String emailReg = textoEmail.getText().toString();
 
-                textoUsuario = findViewById(R.id.editTextNombre);
-                String userReg = textoUsuario.getText().toString();
+                 textoDNI = findViewById(R.id.editTextDoc);
+                 String dniReg = textoDNI.getText().toString();
 
-                textoCont = findViewById(R.id.editTextPass);
-                String passReg = textoCont.getText().toString();
+                 validateInputs( userReg ,  apellidoReg ,  dniReg ,  emailReg ,  passReg);
 
-                textApellido = findViewById(R.id.editApellido);
-                String apellidoReg = textApellido.getText().toString();
+             }
+         });
 
-                textoEmail = findViewById(R.id.editTextEmail);
-                String emailReg = textoEmail.getText().toString();
-
-                textoDNI = findViewById(R.id.editTextDoc);
-                String dniReg = textoDNI.getText().toString();
-
-                validateInputs( userReg ,  apellidoReg ,  dniReg ,  emailReg ,  passReg);
-
-                break;
-
-        }
     }
 
     public void broadcastIntent() {
@@ -181,15 +172,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             });
         }
 
-
-/*    public void openActivityEvent(RegisterRequest response){
-
-        Intent intentEvent = new Intent(this , SensorActivity.class);
-        intentEvent.putExtra("mail" , response.getEmail());
-        startActivity(intentEvent);
-        finish();
-    }*/
-
     public void openActivityEvent(String email , String token){
 
         Intent intentEvent = new Intent(this , SensorActivity.class);
@@ -227,6 +209,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             @Override
             public void onFailure(Call<EventResponse> call, Throwable t) {
 
+                Log.d("Reg error: ", t.getMessage());
                 Toast.makeText(getApplicationContext(),t.getMessage(),Toast.LENGTH_SHORT).show();
             }
         });
