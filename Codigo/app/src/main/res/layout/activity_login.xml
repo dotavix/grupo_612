@@ -56,10 +56,10 @@
 
     <TextView
         android:id="@+id/Registrate"
-        android:layout_width="420dp"
-        android:layout_height="62dp"
+        android:layout_width="408dp"
+        android:layout_height="85dp"
         android:background="#030303"
-        android:padding="5dp"
+        android:padding="15dp"
         android:text="Registrate !!!"
         android:textAlignment="center"
         android:textColor="#FFFFFF"

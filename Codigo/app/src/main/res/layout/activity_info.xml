@@ -10,10 +10,10 @@
 
     <TextView
         android:id="@+id/textInfo"
-        android:layout_width="0dp"
-        android:layout_height="60dp"
+        android:layout_width="414dp"
+        android:layout_height="83dp"
         android:background="#070707"
-        android:padding="10dp"
+        android:padding="15dp"
         android:text="Información sobre cuidados"
         android:textAlignment="center"
         android:textColor="#FFFFFF"
