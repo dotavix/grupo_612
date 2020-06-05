@@ -72,6 +72,7 @@
         android:hint="Ingrese Password"
         android:inputType="text"
         android:maxLength="255"
+        android:password="true"
         android:textAlignment="center"
         android:textColor="#FCFBFB"
         android:textColorHighlight="#FFFFFF"
