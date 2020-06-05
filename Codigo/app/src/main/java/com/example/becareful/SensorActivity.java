@@ -48,7 +48,7 @@ public class SensorActivity extends AppCompatActivity {
     Button verPromedio;
     private final static float ACC = 30;
     SharedPreferences sharedpreferences;
-    public static final String mypreferences = "New1";
+    public static final String mypreferences = "BeCareful";
     String emailSearch;
     String token;
     int incremento = 0;
@@ -137,7 +137,7 @@ public class SensorActivity extends AppCompatActivity {
                     }
                     if (mostrar.isEmpty()){
 
-                        Toast.makeText(getApplicationContext(),"Historial vacio.",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(),"Historial vacío.",Toast.LENGTH_SHORT).show();
 
                     }else {
 
@@ -263,7 +263,6 @@ public class SensorActivity extends AppCompatActivity {
 
         Intent intentInfo = new Intent(this , InfoActivity.class);
         startActivity(intentInfo);
-        //finish();
     }
 
     public void loginEvent(String token , String sensado){
@@ -287,7 +286,6 @@ public class SensorActivity extends AppCompatActivity {
                 }
                 Log.d("Evento sensor", String.valueOf(response.code()));
                 Log.d("Evento sensor response", response.body().toString());
-                Toast.makeText(getApplicationContext(), response.body().toString(),Toast.LENGTH_SHORT).show();
 
             }
 

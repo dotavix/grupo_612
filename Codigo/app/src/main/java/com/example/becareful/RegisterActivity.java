@@ -156,7 +156,6 @@ public class RegisterActivity extends AppCompatActivity {
 
                         Log.d("Response reg correcto", String.valueOf(response.code()));
                         Log.d("Response reg body", response.body().getToken());
-                        Toast.makeText(getApplicationContext(), response.body().getToken(), Toast.LENGTH_SHORT).show();
 
                         loginEvent(response.body());
                         openActivityEvent(email , response.body().getToken());
@@ -166,8 +165,11 @@ public class RegisterActivity extends AppCompatActivity {
                 @Override
                 public void onFailure(Call<RegisterResponse> call, Throwable t) {
 
-                    Toast.makeText(getApplicationContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
+                    if(t.getMessage().contains("Unable to resolve host")){
 
+                        Toast.makeText(getApplicationContext(),"Ha ocurrido un error de conexión.",Toast.LENGTH_SHORT).show();
+
+                    }
                 }
             });
         }
@@ -202,7 +204,6 @@ public class RegisterActivity extends AppCompatActivity {
 
                 Log.d("Evento registracion", String.valueOf(response.code()));
                 Log.d("Evento reg response", response.body().toString());
-                Toast.makeText(getApplicationContext(), response.body().toString(),Toast.LENGTH_SHORT).show();
 
             }
 

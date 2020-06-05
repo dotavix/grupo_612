@@ -10,11 +10,9 @@ public class ApiClient {
 
     private static final String BASE_URL = "http://so-unlam.net.ar/api/api/";
 
-    //private static OkHttpClient okHttpClient = UnsafeOkHttpClient.getUnsafeOkHttpClient();
 
     public static Retrofit getClient() {
 
-        //okHttpClient = UnsafeOkHttpClient.getUnsafeOkHttpClient();
 
         final OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .connectTimeout(20, TimeUnit.SECONDS)
